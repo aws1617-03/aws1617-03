@@ -1,0 +1,24 @@
+{
+  "name": "aws1617-groups",
+  "version": "0.0.0",
+  "description": "Group Resource",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aws1617-groups/aws1617-groups.git"
+  },
+  "keywords": [
+    "aws",
+    "api",
+    "groups"
+  ],
+  "author": "aws1617-groups",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aws1617-groups/aws1617-groups/issues"
+  },
+  "homepage": "https://github.com/aws1617-groups/aws1617-groups#readme"
+}
