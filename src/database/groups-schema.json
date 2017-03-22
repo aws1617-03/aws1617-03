@@ -1,0 +1,14 @@
+{
+    "name": {
+        "type": "String"
+    },
+    "description": {
+        "type": "String"
+    },
+    "members": {
+        "type": "array",
+        "items": {
+            "type": "String"
+        }
+    }
+}
