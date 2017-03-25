@@ -1,0 +1,29 @@
+development:
+  port: 3000
+
+  api:
+    basePath: '/api/v1'
+
+  database:
+    host: 'localhost'
+    port: '27017'
+    name: 'groups_db'
+
+    collections:
+      - name: groups
+        schema: './groups-schema.json'
+
+production:
+  port: 80
+  
+  api:
+    basePath: '/api/v1'
+
+  database:
+    host: 'localhost'
+    port: '27017'
+    name: 'groups_db'
+
+    collections:
+      - name: groups
+        schema: './groups-schema.json'

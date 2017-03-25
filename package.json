@@ -4,7 +4,8 @@
   "description": "Group Resource",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,9 @@
   "homepage": "https://github.com/aws1617-groups/aws1617-groups#readme",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "cors": "^2.8.1",
     "express": "^4.15.2",
+    "js-yaml": "^3.8.2",
     "mongoose": "^4.9.1"
   },
   "devDependencies": {
