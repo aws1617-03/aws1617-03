@@ -19,6 +19,12 @@ var app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+/******************
+ * PUBLIC FILES
+ ******************/
+
+app.use('/', express.static('./public'));
+
 /*****************************
  *  API ENDPOINT DEFINITIONS
  *****************************/
@@ -78,4 +84,5 @@ app.delete(path.join(apiBase, 'groups/:id'), groupsControllers.deleteOne);
 var port = process.env.PORT || config.port;
 app.listen(port, function () {
     console.log('Groups API is running on http://localhost:%s' + apiBase, port);
+    console.log('Groups UI is running on http://localhost:%s', port);
 });
