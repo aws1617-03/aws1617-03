@@ -11,7 +11,7 @@ function _addConfiguration(file) {
     console.log('Add configuration from %s', file);
     try {
 
-        var newConfig = jsyaml.safeLoad(fs.readFileSync(file))[process.env.ENV || 'development'];
+        var newConfig = jsyaml.safeLoad(fs.readFileSync(file))[process.env.NODE_ENV || 'development'];
 
         for (var c in newConfig) {
             module.exports[c] = newConfig[c];
