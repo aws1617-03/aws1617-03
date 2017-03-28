@@ -27,7 +27,8 @@
     "cors": "^2.8.1",
     "express": "^4.15.2",
     "js-yaml": "^3.8.2",
-    "mongoose": "^4.9.1"
+    "mongoose": "^4.9.1",
+    "url-join": "^1.1.0"
   },
   "devDependencies": {
     "bower": "^1.8.0",

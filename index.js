@@ -1,11 +1,14 @@
 'use strict';
 
+var path = {};
+path.join = require('url-join');
+
 //Require dependencies
 var express = require('express'),
     bodyParser = require('body-parser'),
     cors = require('cors'),
-    path = require('path'),
-    config = require('./src/config/config');
+    config = require('./src/config/config'),
+    database = require('./src/database/database');
 
 //add configuration
 config.addConfiguration(path.join(__dirname, 'app-configuration.yaml'));
@@ -42,6 +45,7 @@ app.get(path.join(apiBase, 'groups'), groupsControllers.getAll);
 
 /**
  *  GET ../groups/:id
+ * 
  * 
  *  query params: []
  */
@@ -82,7 +86,14 @@ app.delete(path.join(apiBase, 'groups/:id'), groupsControllers.deleteOne);
 
 //START APP
 var port = process.env.PORT || config.port;
-app.listen(port, function () {
-    console.log('Groups API is running on http://localhost:%s' + apiBase, port);
-    console.log('Groups UI is running on http://localhost:%s', port);
+
+database.connect(function (err) {
+    if (!err) {
+        app.listen(port, function () {
+            console.log('Groups API is running on http://localhost:%s' + apiBase, port);
+            console.log('Groups UI is running on http://localhost:%s', port);
+        });
+    } else {
+        console.log('Error with database connection ' + err.toString());
+    }
 });

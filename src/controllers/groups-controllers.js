@@ -1,45 +1,95 @@
 'use strict';
 
-var MongoClient = require('mongodb').MongoClient;
-var db;
+var Groups = require('../database/database').Groups;
+
+var GroupsControllers = function () { };
 
 
-var groupsControllers = function () {};
-
-groupsControllers.prototype.connectDb = function(callback) {
-    MongoClient.connect(process.env.MONGODB_URL, function(err, database) {
-        if(err){
-            callback(err);
+GroupsControllers.prototype.getAll = function (req, res) {
+    Groups.find({}, function (err, groups) {
+        if (err) {
+            res.status(500).json(); //standarize errors.
+        } else {
+            res.json(groups);
         }
-        
-        db = database.collection('groups');
-        
-        callback(err, database);
     });
 };
 
-groupsControllers.prototype.getAll = function(callback) {
-    return db.find({}).toArray(callback);
+GroupsControllers.prototype.create = function (req, res) {
+
+    if (req.body) {
+        var newGroups = new Groups(req.body);
+        newGroups.save(function (err) {
+            if (err) {
+                res.status(500).json(); //standarize errors.
+            } else {
+                res.json();
+            }
+        });
+    } else {
+        res.status(400).json(); //standarize errors
+    }
+
 };
 
-groupsControllers.prototype.create = function(contact, callback) {
-    return db.insert(contact, callback);
+GroupsControllers.prototype.deleteAll = function (req, res) {
+    Groups.deleteAll(function (err) {
+        if (err) {
+            res.status(500).json(); //standarize errors.
+        } else {
+            res.json();
+        }
+    });
 };
 
-groupsControllers.prototype.deleteAll = function(callback) {
-    return db.remove({},{ multi: true},callback);
+GroupsControllers.prototype.getOneByName = function (req, res) {
+    var name = req.params.name;
+    if (!name) {
+        res.status(400).json();  //standarize errors.
+    } else {
+        Groups.findOne({ name: name }, function (err, group) {
+            if (err) {
+                res.status(500).json(); //standarize errors.
+            } else {
+                if (!group) {
+                    res.status(404).json();  //standarize errors.
+                } else {
+                    res.json(group);
+                }
+            }
+        });
+    }
 };
 
-groupsControllers.prototype.getOneByName = function(name, callback) {
-    return db.find({name:name}).toArray(callback);
+GroupsControllers.prototype.deleteOne = function (req, res) {
+    var name = req.params.name;
+    if (!name) {
+        res.status(400).json();  //standarize errors.
+    } else {
+        Groups.deleteOne({ name: name }, function (err) {
+            if (err) {
+                res.status(500).json(); //standarize errors.
+            } else {
+                res.json();
+            }
+        });
+    }
 };
 
-groupsControllers.prototype.deleteOne = function(name, callback) {
-    return db.remove({name:name},{ multi: true}, callback);
+GroupsControllers.prototype.update = function (req, res) {
+    var updateGroup = req.body;
+    var name = req.params.name;
+    if (!updateGroup || !name) {
+        res.status(400).json();  //standarize errors.
+    } else {
+        Groups.update({ name: name }, updateGroup, function (err) {
+            if (err) {
+                res.status(500).json(); //standarize errors.
+            } else {
+                res.json();
+            }
+        });
+    }
 };
 
-groupsControllers.prototype.update = function(name, updatedContact, callback) {
-    return db.update({name:name},updatedContact,{}, callback);
-};
-
-module.exports = new groupsControllers();
+module.exports = new GroupsControllers();
