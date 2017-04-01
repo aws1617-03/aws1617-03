@@ -1,23 +1,23 @@
 'use strict';
 
-var errors = function () {};
+var Errors = function () { };
 
-errors.prototype.error500 = function() {
-    errors.code = 500;
-    errors.message = "INTERNAL SERVER ERROR";
-};
-   
-errors.prototype.error400 = function() {
-    errors.code = 400;
-    errors.message = "BAD REQUEST";
+Errors.prototype.error500 = function () {
+    Errors.code = 500;
+    Errors.message = "INTERNAL SERVER ERROR";
 };
 
-errors.prototype.error404 = function() {
-    errors.code = 404;
-    errors.message = "NOT FOUND";
+Errors.prototype.error400 = function () {
+    Errors.code = 400;
+    Errors.message = "BAD REQUEST";
 };
 
-module.exports = new errors();
+Errors.prototype.error404 = function () {
+    Errors.code = 404;
+    Errors.message = "NOT FOUND";
+};
+
+module.exports = new Errors();
 
 
 
