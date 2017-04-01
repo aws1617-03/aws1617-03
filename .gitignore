@@ -73,5 +73,8 @@ typings/
 # dotenv environment variables file
 .env
 
+#Custom gitignore
+
+data/
 
 # End of https://www.gitignore.io/api/bower,node,grunt
