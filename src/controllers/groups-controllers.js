@@ -8,13 +8,20 @@ var GroupsControllers = function () { };
 
 
 GroupsControllers.prototype.getAll = function (req, res) {
-    Groups.find({}, function (err, groups) {
+    var page = req.query.page;
+    var limit = parseInt(req.query.limit <= 10 ? req.query.limit : 10);
+
+    var query = Groups.find({}, function (err, groups) {
         if (err) {
             res.status(500).json(new Errors.error500());
         } else {
             res.json(groups);
         }
     });
+
+    if (page) {
+        query.skip((page - 1) * limit).limit(limit);
+    }
 };
 
 GroupsControllers.prototype.create = function (req, res) {
