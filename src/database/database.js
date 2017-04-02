@@ -13,7 +13,7 @@ var groupsSchemaYaml = fs.readFileSync(__dirname + '/groups-schema.json', 'utf8'
 
 module.exports = {
     connect: _connect,
-    Groups: mongoose.model('Groups', new Schema(jsyaml.safeLoad(groupsSchemaYaml)))
+    Groups: mongoose.model('Groups', new Schema(jsyaml.safeLoad(groupsSchemaYaml).properties))
 };
 
 function _connect(callback) {

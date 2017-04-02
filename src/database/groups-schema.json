@@ -1,14 +1,21 @@
 {
-    "name": {
-        "type": "String"
-    },
-    "description": {
-        "type": "String"
-    },
-    "members": {
-        "type": "array",
-        "items": {
-            "type": "String"
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "members": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
         }
-    }
+    },
+    "additionalProperties": false,
+    "required": [
+        "name"
+    ]
 }
