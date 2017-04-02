@@ -49,7 +49,7 @@ app.get(path.join(apiBase, 'groups'), groupsControllers.getAll);
  * 
  *  query params: []
  */
-app.get(path.join(apiBase, 'groups/:id'), groupsControllers.getOneByName);
+app.get(path.join(apiBase, 'groups/:name'), groupsControllers.getOneByName);
 
 /**
  *  POST ../groups
