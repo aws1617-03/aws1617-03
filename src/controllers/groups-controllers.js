@@ -2,6 +2,7 @@
 
 var Groups = require('../database/database').Groups;
 var Errors = require('./error');
+var validateGroups = require('../database/validator').validateGroups;
 
 var GroupsControllers = function () { };
 
@@ -17,8 +18,10 @@ GroupsControllers.prototype.getAll = function (req, res) {
 };
 
 GroupsControllers.prototype.create = function (req, res) {
+    var isValid = validateGroups(req.body);
 
-    if (req.body) {
+    console.log(isValid);
+    if (req.body && isValid.valid) {
         var newGroups = new Groups(req.body);
         newGroups.save(function (err) {
             if (err) {
@@ -28,7 +31,7 @@ GroupsControllers.prototype.create = function (req, res) {
             }
         });
     } else {
-        res.status(400).json(new Errors.error400()); //standarize errors
+        res.status(400).json(new Errors.error400(isValid.errors));
     }
 
 };

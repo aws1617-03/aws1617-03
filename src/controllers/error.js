@@ -7,9 +7,12 @@ Errors.prototype.error500 = function () {
     this.message = "INTERNAL SERVER ERROR";
 };
 
-Errors.prototype.error400 = function () {
+Errors.prototype.error400 = function (reason) {
     this.code = 400;
     this.message = "BAD REQUEST";
+    if (reason) {
+        this.reason = reason;
+    }
 };
 
 Errors.prototype.error404 = function () {
