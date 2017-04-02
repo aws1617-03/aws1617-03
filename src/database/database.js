@@ -3,6 +3,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+mongoose.Promise = require('bluebird');
+
 var config = require('../config/config'),
     fs = require('fs'),
     jsyaml = require('js-yaml');
