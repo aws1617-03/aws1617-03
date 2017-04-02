@@ -20,7 +20,6 @@ GroupsControllers.prototype.getAll = function (req, res) {
 GroupsControllers.prototype.create = function (req, res) {
     var isValid = validateGroups(req.body);
 
-    console.log(isValid);
     if (req.body && isValid.valid) {
         var newGroups = new Groups(req.body);
         newGroups.save(function (err) {
