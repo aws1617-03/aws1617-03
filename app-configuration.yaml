@@ -27,3 +27,18 @@ production:
     collections:
       - name: groups
         schema: './groups-schema.json'
+
+test:
+  port: 3000
+  
+  api:
+    basePath: '/api/v1'
+
+  database:
+    host: '192.168.99.100'
+    port: '27017'
+    name: 'test_groups_db'
+
+    collections:
+      - name: groups
+        schema: './groups-schema.json'

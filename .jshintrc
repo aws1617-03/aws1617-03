@@ -27,6 +27,8 @@
         "before": true,
         "after": true,
         "expect": true,
-        "angular": true
+        "angular": true,
+        "beforeEach": true,
+        "afterEach": true
     }
 }
