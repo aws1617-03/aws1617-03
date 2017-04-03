@@ -5,9 +5,9 @@ development:
     basePath: '/api/v1'
 
   database:
-    host: 'localhost'
-    port: '27017'
-    name: 'groups_db'
+    host: 'ds149700.mlab.com'
+    port: '49700'
+    name: 'dev_groups_db'
 
     collections:
       - name: groups
@@ -20,9 +20,24 @@ production:
     basePath: '/api/v1'
 
   database:
-    host: 'localhost'
-    port: '27017'
+    host: 'ds151070.mlab.com'
+    port: '51070'
     name: 'groups_db'
+
+    collections:
+      - name: groups
+        schema: './groups-schema.json'
+
+test:
+  port: 3000
+  
+  api:
+    basePath: '/api/v1'
+
+  database:
+    host: 'ds149800.mlab.com'
+    port: '49800'
+    name: 'tests_groups_db'
 
     collections:
       - name: groups
