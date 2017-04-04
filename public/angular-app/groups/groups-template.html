@@ -1,1 +1,25 @@
-<h2>Hello groups!!</h2>
+ <h2>List of Groups</h2>
+        <div ng-controller="groupsCntrl">
+            <form name="newGroupForm">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <td><input class = "form-control" type="text" ng-model="newGroup.name"/></td>
+                            <td><input class = "form-control" type="text" ng-model="newGroup.description"/></td>
+                            
+                            <td><button class = "btn btn-primary" ng-disabled="! newGroupForm.$valid" ng-click="addGroup()">Add</button></td>
+                        </tr>
+                        <tr ng-repeat ="group in groups">
+                            <td>{{group.name}}</td>
+                            <td>{{group.description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
