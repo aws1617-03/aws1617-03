@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha tests/**/*.test.js",
     "start": "node server.js",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "heroku": "git push heroku master"
   },
   "repository": {
     "type": "git",
