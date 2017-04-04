@@ -33,7 +33,7 @@ GroupsControllers.prototype.create = function (req, res) {
             if (err) {
                 res.status(500).json(new Errors.error500());
             } else {
-                res.json();
+                res.status(201).json();
             }
         });
     } else {
