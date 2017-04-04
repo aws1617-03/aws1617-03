@@ -2,52 +2,60 @@
 
 var request = require('request');
 var server = require('../../src/index');
+var port = process.env.PORT || 3000;
 
 process.env.NODE_ENV = "test";
+
 
 describe('Groups Controllers Tests', function () {
 
     before(function (done) {
-        server.deploy(done);
-          
-        request.post({
-            url: 'http://localhost:3000/api/v1/groups',
-            json: true,
-            body: {
-                name: "ISA-tests1"
-            }
-        }, function (err, res) {
-            if (err || res.statusCode != 201) {
+        server.deploy(function (err){
+            if (err) {
                 done(err);
             } else {
                 request.post({
-                    url: 'http://localhost:3000/api/v1/groups',
-                    json: true,
-                    body: {
-                        name: "ISA-tests2"
-                    }
+                        url: 'http://localhost:'+port+'/api/v1/groups',
+                        json: true,
+                        body: {
+                            name: "ISA-tests1"
+                        }
                 }, function (err, res) {
-                    if (err || res.statusCode != 201) {
-                        done(err);
-                    } else {
-                        request.post({
-                            url: 'http://localhost:3000/api/v1/groups',
-                            json: true,
-                            body: {
-                                name: "ISA-tests3"
-                            }
-                        }, function (err, res) {
-                            if (err || res.statusCode != 201) {
-                                done(err);
-                            } else {
-                                done();
-                            }
-                        });
-                    }
-                });
-            }
+                        if (err || res.statusCode != 201) {
+                            done(err);
+                        } else {
+                            request.post({
+                                url: 'http://localhost:'+port+'/api/v1/groups',
+                                json: true,
+                                body: {
+                                    name: "ISA-tests2"
+                                }
+                            }, function (err, res) {
+                                if (err || res.statusCode != 201) {
+                                    done(err);
+                                } else {
+                                    request.post({
+                                        url: 'http://localhost:'+port+'/api/v1/groups',
+                                        json: true,
+                                        body: {
+                                            name: "ISA-tests3"
+                                        }
+                                    }, function (err, res) {
+                                        if (err || res.statusCode != 201) {
+                                            done(err);
+                                        } else {
+                                            done();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         });
-    });
+          
+        
 
     after(function (done) {
         server.undeploy(done);
@@ -55,7 +63,7 @@ describe('Groups Controllers Tests', function () {
 
     it('POST /groups', function (done) {
         request.post({
-            url: 'http://localhost:3000/api/v1/groups',
+            url: 'http://localhost:'+port+'/api/v1/groups',
             json: true,
             body: {
                 name: "ISA-tests"
@@ -70,8 +78,8 @@ describe('Groups Controllers Tests', function () {
     });
     
     it('GET ALL /groups', function (done) {
-        request.getAll({
-            url: 'http://localhost:3000/api/v1/groups/',
+        request.get({
+            url: 'http://localhost:'+port+'/api/v1/groups/',
             json: true,
 
         }, function (err, res) {
@@ -85,8 +93,8 @@ describe('Groups Controllers Tests', function () {
     
     
     it('UPDATE /groups', function (done) {
-        request.update({
-            url: 'http://localhost:3000/api/v1/groups/ISA-tests',
+        request.put({
+            url: 'http://localhost:'+port+'/api/v1/groups/ISA-tests',
             json: true,
             body: {
                 name: "ISAUpdate-tests"
@@ -102,8 +110,8 @@ describe('Groups Controllers Tests', function () {
     
 
     it('GET /groups', function (done) {
-        request.getOneByName({
-            url: 'http://localhost:3000/api/v1/groups/ISAUpdate-tests',
+        request.get({
+            url: 'http://localhost:'+port+'/api/v1/groups/ISAUpdate-tests',
             json: true,
         }, function (err, res) {
             if (err || res.statusCode != 200) {
@@ -116,8 +124,8 @@ describe('Groups Controllers Tests', function () {
     
     
      it('DELETE /groups', function (done) {
-        request.deleteOne({
-            url: 'http://localhost:3000/api/v1/groups/ISAUpdate-tests',
+        request.delete({
+            url: 'http://localhost:'+port+'/api/v1/groups/ISAUpdate-tests',
             json: true,
             body: {
               
@@ -132,8 +140,8 @@ describe('Groups Controllers Tests', function () {
     });
     
     it('GET ALL /groups', function (done) {
-        request.getAll({
-            url: 'http://localhost:3000/api/v1/groups/',
+        request.get({
+            url: 'http://localhost:'+port+'/api/v1/groups/',
             json: true,
 
         }, function (err, res) {
@@ -146,8 +154,8 @@ describe('Groups Controllers Tests', function () {
     });
     
     it('DELETE ALL /groups', function (done) {
-        request.deleteAll({
-            url: 'http://localhost:3000/api/v1/groups/ISAUpdate-tests',
+        request.delete({
+            url: 'http://localhost:'+port+'/api/v1/groups/ISAUpdate-tests',
             json: true,
             body: {
               
@@ -162,8 +170,8 @@ describe('Groups Controllers Tests', function () {
     });
     
     it('GET ALL /groups', function (done) {
-        request.getAll({
-            url: 'http://localhost:3000/api/v1/groups/',
+        request.get({
+            url: 'http://localhost:'+port+'/api/v1/groups/',
             json: true,
 
         }, function (err, res) {
