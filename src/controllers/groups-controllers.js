@@ -31,7 +31,7 @@ GroupsControllers.prototype.create = function (req, res) {
         var newGroups = new Groups(req.body);
         newGroups.save(function (err) {
             if (err) {
-                res.status(500).json(new Errors.error500());
+                res.status(409).json(new Errors.error409());
             } else {
                 res.json();
             }
