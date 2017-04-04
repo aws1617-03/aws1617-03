@@ -82,7 +82,7 @@ describe('Groups Controllers Tests', function () {
 
                 done(err);
             } else {
-                expect(res.statusCode).to.equal(200);
+                expect(res.statusCode).to.equal(201);
                 done();
             }
         });
