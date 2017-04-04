@@ -1,6 +1,7 @@
 'use strict';
 
 var expect = require('chai').expect;
+process.env.NODE_ENV = "test";
 
 describe('Config module tests', function () {
     var config = require('../src/config/config');
