@@ -7,14 +7,14 @@ path.join = require('url-join');
 var express = require('express'),
     bodyParser = require('body-parser'),
     cors = require('cors'),
-    config = require('./src/config/config'),
-    database = require('./src/database/database');
+    config = require('./config/config'),
+    database = require('./database/database');
 
 //add configuration
-config.addConfiguration(path.join(__dirname, 'app-configuration.yaml'));
+config.addConfiguration(path.join(__dirname, '/../app-configuration.yaml'));
 
 //Require controllers
-var groupsControllers = require('./src/controllers/groups-controllers');
+var groupsControllers = require('./controllers/groups-controllers');
 
 //create express app
 var app = express();
@@ -71,7 +71,7 @@ app.post(path.join(apiBase, 'groups'), groupsControllers.create);
  *     "members": ["Pablo F.", "Antonio R."]
  *  }
  */
-app.put(path.join(apiBase, 'groups/:id'), groupsControllers.update);
+app.put(path.join(apiBase, 'groups/:name'), groupsControllers.update);
 
 /**
  *  DELETE ../groups
@@ -82,18 +82,31 @@ app.delete(path.join(apiBase, 'groups'), groupsControllers.deleteAll);
  *  DELETE ../groups/:id
  * 
  */
-app.delete(path.join(apiBase, 'groups/:id'), groupsControllers.deleteOne);
+app.delete(path.join(apiBase, 'groups/:name'), groupsControllers.deleteOne);
 
 //START APP
 var port = process.env.PORT || config.port;
 
-database.connect(function (err) {
-    if (!err) {
-        app.listen(port, function () {
-            console.log('Groups API is running on http://localhost:%s' + apiBase, port);
-            console.log('Groups UI is running on http://localhost:%s', port);
-        });
-    } else {
-        console.log('Error with database connection ' + err.toString());
-    }
-});
+var server;
+module.exports.deploy = function (callback) {
+    database.connect(function (err) {
+        if (!err) {
+            server = app.listen(port, function (exErr) {
+                if (exErr) {
+                    console.log('Error with express ' + exErr.toString());
+                } else {
+                    console.log('Groups API is running on http://localhost:%s' + apiBase, port);
+                    console.log('Groups UI is running on http://localhost:%s', port);
+                    callback();
+                }
+            });
+        } else {
+            console.log('Error with database connection ' + err.toString());
+            callback(err);
+        }
+    });
+};
+
+module.exports.undeploy = function (callback) {
+    server.close(callback);
+};

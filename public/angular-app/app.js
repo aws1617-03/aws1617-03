@@ -32,5 +32,16 @@ angular.module("groups-app", ['ui.router'])
                     }
                 }
 
+            }).state('tests', {
+
+                url: '/api/v1/tests',
+                parent: 'site',
+                views: {
+                    'content@': {
+                        templateUrl: 'angular-app/tests/tests-template.html',
+                        controller: 'testsCtl'
+                    }
+                }
+
             });
     });

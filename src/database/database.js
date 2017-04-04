@@ -21,11 +21,27 @@ function _connect(callback) {
     var port = config.database.port;
     var name = config.database.name;
 
-    mongoose.connect('mongodb://' + host + ':' + port + '/' + name, function (err) {
+    var auth = config.database.auth;
+
+    var username = process.env[config.database.username];
+    var password = process.env[config.database.password];
+
+    var url = 'mongodb://' + host + ':' + port + '/' + name;
+    var opt;
+    if (auth && username && password) {
+        opt = {
+            user: username,
+            pass: password
+        };
+    } else {
+        return callback(new Error("If auth = true, then username and password are required"));
+    }
+
+    mongoose.connect(url, opt, function (err) {
         if (!err) {
-            callback();
+            return callback();
         } else {
-            callback(err);
+            return callback(err);
         }
     });
 }
