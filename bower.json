@@ -1,0 +1,29 @@
+{
+  "name": "aws1617-groups",
+  "description": "Group Resource",
+  "main": "server.js",
+  "authors": [
+    "aws1617-groups"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "aws",
+    "api",
+    "groups"
+  ],
+  "homepage": "https://github.com/aws1617-03/aws1617-03",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-ui-router": "^0.4.2",
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
+}
