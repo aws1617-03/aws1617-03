@@ -71,7 +71,7 @@ app.post(path.join(apiBase, 'groups'), groupsControllers.create);
  *     "members": ["Pablo F.", "Antonio R."]
  *  }
  */
-app.put(path.join(apiBase, 'groups/:id'), groupsControllers.update);
+app.put(path.join(apiBase, 'groups/:name'), groupsControllers.update);
 
 /**
  *  DELETE ../groups
@@ -82,7 +82,7 @@ app.delete(path.join(apiBase, 'groups'), groupsControllers.deleteAll);
  *  DELETE ../groups/:id
  * 
  */
-app.delete(path.join(apiBase, 'groups/:id'), groupsControllers.deleteOne);
+app.delete(path.join(apiBase, 'groups/:name'), groupsControllers.deleteOne);
 
 //START APP
 var port = process.env.PORT || config.port;

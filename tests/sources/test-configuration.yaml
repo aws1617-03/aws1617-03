@@ -1,12 +1,17 @@
 test:
   port: 3000
+  
   api:
     basePath: '/api/v1'
 
   database:
-    host: 'localhost'
-    port: '27017'
-    name: 'groups_db'
+    host: 'ds149800.mlab.com'
+    port: '49800'
+    name: 'tests_groups_db'
+
+    auth: true
+    username: MONGO_USER
+    password: MONGO_PASS
 
     collections:
       - name: groups

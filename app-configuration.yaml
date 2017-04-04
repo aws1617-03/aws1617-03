@@ -54,18 +54,3 @@ test:
     collections:
       - name: groups
         schema: './groups-schema.json'
-
-test:
-  port: 3000
-  
-  api:
-    basePath: '/api/v1'
-
-  database:
-    host: 'localhost'
-    port: '27017'
-    name: 'test_groups_db'
-
-    collections:
-      - name: groups
-        schema: './groups-schema.json'
