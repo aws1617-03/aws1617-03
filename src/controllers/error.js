@@ -20,6 +20,14 @@ Errors.prototype.error404 = function () {
     this.message = "NOT FOUND";
 };
 
+Errors.prototype.error409 = function (reason) {
+    this.code = 409;
+    this.message = "CONFLICT";
+    if (reason) {
+        this.reason = reason;
+    }
+};
+
 module.exports = new Errors();
 
 
