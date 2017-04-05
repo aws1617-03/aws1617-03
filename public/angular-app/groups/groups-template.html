@@ -1,1 +1,64 @@
-<h2>Hello groups!!</h2>
+ <h2>List of Groups</h2>
+        <div>
+            <form name="newGroupForm">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Members</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <td><input class = "form-control" type="text" ng-model="newGroup.name"/></td>
+                            <td><input class = "form-control" type="text" ng-model="newGroup.description"/></td>
+                            <td><input type="text" class="form-control" id="tags" ng-model="newGroup.members" ng-list=", "></td>
+                            <td><button class = "btn btn-primary" ng-click="addGroup()">Add</button></td>
+
+                        <tr ng-repeat ="group in groups">
+                            <td>{{group.name}}</td>
+                            <td>{{group.description}}</td>
+                            <td><span ng-repeat="member in group.members">{{member}} </span></td>
+                            <td><button class = "btn btn-primary" ng-click="openModal(group)" data-toggle="modal" data-target="#myModal">Edit</button></td>
+                            <td><button class="btn btn-primary" ng-click="deleteGroup(group)">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        
+         <div class="modal fade" tabindex="-1" id="myModal" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Edit Group</h4>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Name" ng-model="newGroup.name">
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" placeholder="Name" ng-model="newGroup.description">
+                  </div>
+                  <div class="form-group">
+                    <label for="members">Members</label>
+                    <input type="text" class="form-control" id="members" ng-model="newGroup.members" ng-list=", "
+                        placeholder="Member1,Member2">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="update" class="btn btn-warning" ng-click="updateGroup()">Update</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
