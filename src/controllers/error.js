@@ -28,6 +28,11 @@ Errors.prototype.error409 = function (reason) {
     }
 };
 
+Errors.prototype.error401 = function () {
+    this.code = 401;
+    this.message = "UNAUTHORIZED";
+};
+
 module.exports = new Errors();
 
 
