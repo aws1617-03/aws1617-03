@@ -1,50 +1,97 @@
 'use strict';
 
-angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScope, $http) {
+angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScope, $http, $timeout) {
 
     $scope.apikey = $rootScope.apikey;
 
     $scope.refresh = function () {
+        $scope.cleanError()
         if (!$rootScope.apikey) {
             $rootScope.apikey = $scope.apikey;
         }
         $http.get("/api/v1/groups?apikey=" + $scope.apikey).then(function (response) {
             $scope.groups = response.data;
+        }, function (err) {
+            if ($scope.apikey) {
+                error(err.data);
+            }
         });
-    }
+    };
 
     $scope.addGroup = function () {
-        console.log("Adding group " + $scope.newGroup);
-        $http.post("/api/v1/groups?apikey=" + $scope.apikey, $scope.newGroup).then(function () {
-            $scope.refresh();
-            clean();
+        $scope.cleanError();
+        $http.post("/api/v1/groups?apikey=" + $scope.apikey, $scope.newGroup).then(function (response) {
+            if (response.status != 201) {
+                error(response.data);
+            } else {
+                $scope.refresh();
+                message('Group added.');
+                clean();
+            }
+        }, function (err) {
+            error(err.data);
         });
 
     };
 
     $scope.deleteGroup = function (group) {
+        $scope.cleanError();
         $http.delete('/api/v1/groups/' + group.name + "?apikey=" + $scope.apikey).then((response) => {
-            $scope.refresh();
+
+            if (response.status != 200) {
+                error(response.data);
+            } else {
+                $scope.refresh();
+                message('Group deleted.');
+                clean();
+            }
+
+        }, function (err) {
+            error(err.data);
         });
     };
 
     $scope.updateGroup = function () {
+        $scope.cleanError();
         $http.put('/api/v1/groups/' + $scope.latestName + "?apikey=" + $scope.apikey, $scope.newGroup).then((response) => {
 
-            console.log(response);
             if (response.status != 200) {
-                error();
+                error(response.data);
             } else {
                 $scope.refresh();
                 clean();
+                message('Group updated.');
             }
 
+        }, function (err) {
+            error(err.data);
         });
     };
 
-    function error() {
+    $scope.cleanError = function () {
+        $scope.error = null;
+    };
 
+    function error(data) {
+        clean();
+        if (data.code) {
+            $scope.error = data;
+        } else {
+            $scope.error = {
+                code: 500,
+                message: "Unexpected error."
+            };
+        }
     }
+
+    function message(msg) {
+        $scope.message = msg;
+        $timeout($scope.cleanMessage, 6000);
+    }
+
+    $scope.cleanMessage = function () {
+        $scope.message = null;
+    };
 
     function load() {
 
