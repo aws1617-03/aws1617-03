@@ -14,7 +14,8 @@ var express = require('express'),
 config.addConfiguration(path.join(__dirname, '/../app-configuration.yaml'));
 
 //Require controllers
-var groupsControllers = require('./controllers/groups-controllers');
+var groupsControllers = require('./controllers/groups-controllers'),
+    auth = require('./auth/auth');
 
 //create express app
 var app = express();
@@ -32,6 +33,8 @@ app.use('/', express.static('./public'));
  *  API ENDPOINT DEFINITIONS
  *****************************/
 var apiBase = config.api.basePath;
+
+app.use('/api', auth.authmiddelware);
 
 /**
  *  GET ../groups
