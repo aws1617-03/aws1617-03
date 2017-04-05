@@ -51,12 +51,11 @@
         </tr>
       </thead>
       <tbody>
-        <div style="margin: 0px 15px;">
-          <td><input class="form-control" type="text" ng-model="newGroup.name" /></td>
-          <td><input class="form-control" type="text" ng-model="newGroup.description" /></td>
-          <td><input type="text" class="form-control" id="tags" ng-model="newGroup.members" ng-list=", "></td>
-          <td><button class="btn btn-primary" ng-click="addGroup()">Add</button></td>
-        </div>
+        <td><input class="form-control newGroupInput " type="text" ng-model="newGroup.name" /></td>
+        <td><input class="form-control newGroupInput" type="text" ng-model="newGroup.description" /></td>
+        <td><input type="text" class="form-control newGroupInput" id="tags" ng-model="newGroup.members" ng-list=", "></td>
+        <td><button class="btn btn-primary" ng-click="addGroup()">Add</button></td>
+
         <tr ng-repeat="group in groups">
           <td>{{group.name}}</td>
           <td>{{group.description}}</td>
