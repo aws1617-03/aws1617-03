@@ -8,7 +8,6 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
         if (!$rootScope.apikey) {
             $rootScope.apikey = $scope.apikey;
         }
-
         $http.get("/api/v1/groups?apikey=" + $scope.apikey).then(function (response) {
             $scope.groups = response.data;
         });
@@ -18,6 +17,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
         console.log("Adding group " + $scope.newGroup);
         $http.post("/api/v1/groups?apikey=" + $scope.apikey, $scope.newGroup).then(function () {
             $scope.refresh();
+            clean();
         });
 
     };
@@ -36,8 +36,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
                 error();
             } else {
                 $scope.refresh();
-                $scope.newGroup = {};
-                $('#myModal').modal('hide');
+                clean();
             }
 
         });
@@ -47,7 +46,24 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     }
 
+    function load() {
+
+    }
+
+    function clean() {
+        $scope.newGroup = {};
+        $('#myModal').modal('hide');
+    }
+
     $scope.openModal = function (group) {
+        if (group) {
+            $scope.latestName = group.name;
+            $scope.newGroup = group;
+            $('#myModal').modal('show');
+        }
+    };
+
+    $scope.close = function (group) {
         if (group) {
             $scope.latestName = group.name;
             $scope.newGroup = group;
