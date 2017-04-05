@@ -30,6 +30,20 @@
     <strong>Authentication is required!</strong> Please get your APIKEY.
   </div>
 
+  <div class="alert alert-danger alert-dismissible fade in" ng-if="error && apikey" role="alert">
+    <button type="button" class="close" ng-click="cleanError()">
+        <span aria-hidden="true" >×</span></button>
+
+    <strong>{{error.code}}</strong> {{error.message}}.
+  </div>
+
+  <div class="alert alert-success alert-dismissible fade in" ng-if="message" role="alert">
+    <button type="button" class="close" ng-click="cleanMessage()">
+        <span aria-hidden="true" >×</span></button>
+
+    <strong>{{message}}</strong>
+  </div>
+
   <form class="form-inline pull-right" style="margin: 0px 0px 50px 30px;">
     <div class="form-group">
       <label for="name">APIKEY</label>
