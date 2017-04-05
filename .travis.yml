@@ -13,8 +13,3 @@ before_script:
 
 script:
   - grunt test
-
-after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] ; then
-      npm run heroku;
-    fi
