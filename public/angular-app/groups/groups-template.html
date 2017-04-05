@@ -1,64 +1,106 @@
- <h2>List of Groups</h2>
-        <div>
-            <form name="newGroupForm">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Members</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <td><input class = "form-control" type="text" ng-model="newGroup.name"/></td>
-                            <td><input class = "form-control" type="text" ng-model="newGroup.description"/></td>
-                            <td><input type="text" class="form-control" id="tags" ng-model="newGroup.members" ng-list=", "></td>
-                            <td><button class = "btn btn-primary" ng-click="addGroup()">Add</button></td>
+<div class="row bg-primary img-rounded">
+  <div class="col-sm-12" style="padding-top: 30px;padding-bottom: 30px;">
+    <h1>Groups Microservice</h1>
+    <h4>Manage reseach groups</h4>
 
-                        <tr ng-repeat ="group in groups">
-                            <td>{{group.name}}</td>
-                            <td>{{group.description}}</td>
-                            <td><span ng-repeat="member in group.members">{{member}} </span></td>
-                            <td><button class = "btn btn-primary" ng-click="openModal(group)" data-toggle="modal" data-target="#myModal">Edit</button></td>
-                            <td><button class="btn btn-primary" ng-click="deleteGroup(group)">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+    <a class="pull-right" href="https://github.com/aws1617-03/aws1617-03" target="_blank">
+      <img src="images/github-logo.png" style="width: 150px;"></img>
+    </a>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 15px;">
+  <div class="col-sm-12">
+    <ul class="nav nav-pills">
+      <li role="presentation"><a href="#">Home</a></li>
+      <li role="presentation" class="active"><a href="#!/groups">Manage Groups</a></li>
+      <li role="presentation"><a href="#!/api/v1/tests">Postman tests</a></li>
+    </ul>
+  </div>
+</div>
+
+<h2>List of Groups</h2>
+<div>
+
+
+  <div class="alert alert-warning alert-dismissible fade in" ng-if="!apikey" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span></button>
+
+    <strong>Authentication is required!</strong> Please get your APIKEY.
+  </div>
+
+  <form class="form-inline pull-right" style="margin: 0px 0px 50px 30px;">
+    <div class="form-group">
+      <label for="name">APIKEY</label>
+      <input type="text" class="form-control" id="apikey" placeholder="Your apikey" ng-model="apikey">
+      <button class="btn btn-default" ng-click="refresh()">Authenticate</button>
+    </div>
+  </form>
+
+
+
+  <form name="newGroupForm">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Members</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <div style="margin: 0px 15px;">
+          <td><input class="form-control" type="text" ng-model="newGroup.name" /></td>
+          <td><input class="form-control" type="text" ng-model="newGroup.description" /></td>
+          <td><input type="text" class="form-control" id="tags" ng-model="newGroup.members" ng-list=", "></td>
+          <td><button class="btn btn-primary" ng-click="addGroup()">Add</button></td>
         </div>
-        
-         <div class="modal fade" tabindex="-1" id="myModal" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Edit Group</h4>
-              </div>
-              <div class="modal-body">
-                <form>
-                  <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name" ng-model="newGroup.name">
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <input type="text" class="form-control" id="description" placeholder="Name" ng-model="newGroup.description">
-                  </div>
-                  <div class="form-group">
-                    <label for="members">Members</label>
-                    <input type="text" class="form-control" id="members" ng-model="newGroup.members" ng-list=", "
-                        placeholder="Member1,Member2">
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" id="update" class="btn btn-warning" ng-click="updateGroup()">Update</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
+        <tr ng-repeat="group in groups">
+          <td>{{group.name}}</td>
+          <td>{{group.description}}</td>
+          <td><span ng-repeat="member in group.members">{{member}}, </span></td>
+          <td>
+            <button class="btn btn-warning" ng-click="openModal(group)">Edit</button>
+            <button class="btn btn-danger" ng-click="deleteGroup(group)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<div class="modal fade" tabindex="-1" id="myModal" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit Group</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Name" ng-model="newGroup.name">
           </div>
-          <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Name" ng-model="newGroup.description">
+          </div>
+          <div class="form-group">
+            <label for="members">Members</label>
+            <input type="text" class="form-control" id="members" ng-model="newGroup.members" ng-list=", " placeholder="Member1,Member2">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="update" class="btn btn-warning" ng-click="updateGroup()">Update</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

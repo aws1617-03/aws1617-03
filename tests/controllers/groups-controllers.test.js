@@ -16,6 +16,7 @@ var authString = "?apikey=jDerK=e3dasE";
 describe('Groups Controllers Tests', function () {
 
     before(function (done) {
+        this.timeout(10000);
         server.deploy(function (err) {
             if (err) {
 
