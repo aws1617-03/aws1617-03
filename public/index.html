@@ -5,30 +5,35 @@
     <title>Groups UI</title>
     <link rel="icon" type="image/png" href="images/groups-logo.png">
 
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body ng-app="groups-app">
 
+    <div ui-view="navbar" id="navbar"></div>
+
     <div class="container" ui-view="content" id="content"></div>
 
-
+    <div ui-view="footer" id="footer"></div>
+    
 </body>
 
 <!-- Dependencies -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/materialize/dist/js/materialize.min.js"></script>
 
 <!-- APP -->
 <script src="angular-app/app.js"></script>
+<script src="angular-app/navbar/navbar-controller.js"></script>
+<script src="angular-app/footer/footer-controller.js"></script>
 <script src="angular-app/home/home-controller.js"></script>
 <script src="angular-app/groups/groups-controller.js"></script>
 <script src="angular-app/tests/tests-controller.js"></script>
 
-<!-- DEV tooling 
-<script src="//localhost:3000/livereload.js"></script>-->
+<!-- DEV tooling-->
+<script src="//localhost:9000/livereload.js"></script>
 
 </html>

@@ -1,16 +1,23 @@
 'use strict';
 
 angular.module("groups-app", ['ui.router'])
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
         $urlRouterProvider.otherwise("/");
+
 
         $stateProvider
             .state('site', {
                 abstract: true,
-                views: {}
+                views: {'navbar@': {
+                    templateUrl: 'angular-app/navbar/navbar-template.html',
+                    controller: 'navbarCtl'
+                },'footer@': {
+                    templateUrl: 'angular-app/footer/footer-template.html',
+                    controller: 'footerCtl'
+                }}
 
-            }).state('helps', {
+            }).state('home', {
 
                 url: '/',
                 parent: 'site',
@@ -44,4 +51,5 @@ angular.module("groups-app", ['ui.router'])
                 }
 
             });
+
     });

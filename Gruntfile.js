@@ -13,7 +13,7 @@ module.exports = function (grunt) {
         //Load configurations
         pkg: grunt.file.readJSON('package.json'),
 
-        //Lint JS 
+        //Lint JS
         jshint: {
             all: ['Gruntfile.js', '*.js', 'src/**/*.js', 'tests/**/*.js'], //If you want to inspect more file, you change this.
             options: {
@@ -38,8 +38,14 @@ module.exports = function (grunt) {
         //IT IS RECOMENDED TO EXECUTE "grunt watch" while you are working.
         watch: {
             scripts: {
-                files: ['src/**/*.js'],
-                tasks: ['jshint']
+                files: ['public/**'],
+                tasks: []
+            },
+            options: {
+                livereload: {
+                    host: 'localhost',
+                    port: 9000
+                }
             }
         },
 
