@@ -2,7 +2,7 @@
 
 angular.module("groups-app").controller("homeCtl", function ($scope, $http) {
 
-    $http.get("https://api.github.com/repos/aws1617-03/aws1617-03/events?per_page=5&page=1").then(function(response){
+    $http.get("https://api.github.com/repos/aws1617-03/aws1617-03/events?per_page=8&page=1").then(function(response){
         $scope.events = response.data;
     }, function(response){
         console.log(response);
@@ -23,6 +23,14 @@ angular.module("groups-app").controller("homeCtl", function ($scope, $http) {
           case "IssuesEvent":
             return "An Issue was " + event.payload.action;
             break; //getIssueEventTitle(event);
+
+          case "PushEvent":
+            return "New push to " + event.payload.ref.split('/').pop();
+            break;
+
+          case "DeleteEvent":
+            return event.payload.ref_type + " " + event.payload.ref + " was deleted";
+            break;
 
           default:
             return "Card Title";
@@ -60,6 +68,9 @@ angular.module("groups-app").controller("homeCtl", function ($scope, $http) {
       }
     }
 
+    $scope.lintDate = function(date){
+      return moment(date).format('DD-MM-YYYY HH:mm:ss');
+    }
     $scope.events = [
   {
     "id": "5715864409",

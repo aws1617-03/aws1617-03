@@ -1,46 +1,53 @@
 <div class="row" style="margin-top: 15px;">
     <div class="col s12 m6">
-        <h4>Development News</h4>
 
-        <div class="row">
-          <div class="col s12" ng-repeat="event in events">
-            <div class="card">
-              <div class="card-content">
-                <p class="card-title" >{{ getTitle(event) }}
-                  <em style="font-size:17px;">by:
+        <div class="card">
+            <h5 class="card-content">Development News</h5>
+            <div class="card-image">
+                <img src="images/github-flow.png">
+            </div>
+            <div class="card-content">
+
+                <div class="row" ng-repeat="event in events">
+                  <div class="col s12">
+                    {{lintDate(event.created_at)}} - {{ getTitle(event) }} by
                     <a href="https://github.com/{{event.actor.login}}" target="_blank">
                       {{event.actor.login}}</a>
-                  </em>
-                </p>
-                <!--
-                <div style="margin-top:15px;">
-                  {{ getDescription(event) }}
+                      <a href="{{ seeOnGithub(event) }}" target="_blank">See on Github</a>
+                      <!--<pre>{{ event | json:2 }}</pre>-->
+                  </div>
                 </div>
-
-                <pre>{{ event | json:2 }}</pre>-->
-              </div>
-              <div class="card-action center">
-                <a href="{{ seeOnGithub(event) }}" target="_blank">See on Github</a>
-                <!--<a href="#">This is a link</a>-->
-              </div>
             </div>
-          </div>
         </div>
+
     </div>
     <div class="col s12 m6">
-        <h4>Team components</h4>
-        <!--<pre>{{ collaborators | json:2 }}</pre>-->
-        <div ng-repeat="collaborator in collaborators">
-            <div class="row valign-wrapper">
-            <div class="col s3">
-              <a href="{{collaborator.html_url}}" target="_blank">
-                <img src="{{collaborator.avatar_url}}" alt="Component's avatar" class="circle responsive-img left" style="box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);">
-              </a>
-            </div>
-            <div class="col s9">
-                <a href="{{collaborator.html_url}}" target="_blank"><h5>@{{collaborator.login}}</h5></a>
+
+        <div class="card">
+            <h5 class="card-content">Team components</h5>
+            <div class="card-content">
+                <!--<pre>{{ collaborators | json:2 }}</pre>-->
+                <div class="row" ng-repeat="collaborator in collaborators">
+                    <div class="row valign-wrapper">
+                      <div class="col s3">
+                        <a href="{{collaborator.html_url}}" target="_blank">
+                          <img src="{{collaborator.avatar_url}}" alt="Component's avatar" class="circle responsive-img left" style="box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);">
+                        </a>
+                      </div>
+                      <div class="col s9">
+                          <a href="{{collaborator.html_url}}" target="_blank"><h5>@{{collaborator.login}}</h5></a>
+                      </div>
+                    </div>
+                  </div>
             </div>
         </div>
-        <h4>Other widget</h4>
+
+        <div class="card">
+            <h5 class="card-content">Other widget</h5>
+            <div class="card-content">
+                <!--<pre>{{ collaborators | json:2 }}</pre>-->
+            </div>
+        </div>
+
     </div>
-</div>
+  </div>
