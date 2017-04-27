@@ -1,35 +1,85 @@
-<h2>List of Groups</h2>
-<div>
+<div class="row">
+  <div class="col s12">
 
+    <div class="row">
+      <!--apikey form-->
+      <div class="col s12 m4">
+        <form ng-submit="refresh()">
+          <div class="input-field">
+            <i class="material-icons prefix">vpn_key</i>
+            <input type="text" id="apikey" placeholder="API key" ng-model="apikey">
 
-  <div class="alert alert-warning alert-dismissible fade in" ng-if="!apikey" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span></button>
+            <input type="submit" class="btn btn-default hide" />
+          </div>
+        </form>
+      </div>
+      <!--end apikey form-->
 
-    <strong>Authentication is required!</strong> Please get your APIKEY.
-  </div>
-
-  <div class="alert alert-danger alert-dismissible fade in" ng-if="error && apikey" role="alert">
-    <button type="button" class="close" ng-click="cleanError()">
-        <span aria-hidden="true" >×</span></button>
-
-    <strong>{{error.code}}</strong> {{error.message}}.
-  </div>
-
-  <div class="alert alert-success alert-dismissible fade in" ng-if="message" role="alert">
-    <button type="button" class="close" ng-click="cleanMessage()">
-        <span aria-hidden="true" >×</span></button>
-
-    <strong>{{message}}</strong>
-  </div>
-
-  <form class="form-inline pull-right" style="margin: 0px 0px 50px 30px;">
-    <div class="form-group">
-      <label for="name">APIKEY</label>
-      <input type="text" class="form-control" id="apikey" placeholder="Your apikey" ng-model="apikey">
-      <button class="btn btn-default" ng-click="refresh()">Authenticate</button>
+      <!-- alerts -->
+      <div class="col s12 m8">
+        <div class="row fade" ng-if="!apikey">
+          <div class="col s12">
+            <div class="card-panel orange lighten-2">
+              <span class="white-text"><strong>Authentication is required!</strong> Please get your APIKEY.</span>
+            </div>
+          </div>
+        </div>
+        <div class="row fade" ng-if="error && apikey">
+          <div class="col s12">
+            <div class="card-panel red lighten-2">
+              <strong>{{error.code}}</strong> {{error.message}}.
+            </div>
+          </div>
+        </div>
+        <div class="row fade" ng-if="message">
+          <div class="col s12">
+            <div class="card-panel red lighten-2">
+              <strong>{{message}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </form>
+    <!--end alerts-->
+
+    <!-- table -->
+    <div class="row">
+      <div class="col s12 m4" ng-repeat="group in groups">
+        <div class="card">
+          <div class="card-image">
+            <img src="images/group-default.png">
+            <span class="card-title">{{group.name}}</span>
+            <a class="btn-floating halfway-fab waves-effect waves-light orange accent-2"><i class="material-icons">edit</i></a>
+          </div>
+          <div class="card-content">
+            <p><b>Description:</b> {{group.description}}</p>
+            <p><b>Members:</b>
+              <span ng-repeat="member in group.members">{{member}}, </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- pagination -->
+    <div class="row">
+      <div class="col s12 center">
+        <ul class="pagination" ng-if="groups.length > 0">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active"><a href="#!">1</a></li>
+          <li class="waves-effect"><a href="#!">2</a></li>
+          <li class="waves-effect"><a href="#!">3</a></li>
+          <li class="waves-effect"><a href="#!">4</a></li>
+          <li class="waves-effect"><a href="#!">5</a></li>
+          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+
+
 
 
 

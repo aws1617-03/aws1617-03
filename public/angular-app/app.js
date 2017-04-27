@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module("groups-app", ['ui.router'])
+angular.module("groups-app", ['ui.router', 'ngAnimate'])
     .config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise("/");
 
-        var token = "84829f0084de9729788e23f5cc468408811f57d6";
+
         $httpProvider.defaults.headers.common.Authorization = 'token ' + token;
 
         $stateProvider
