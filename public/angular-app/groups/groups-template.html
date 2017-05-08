@@ -1,6 +1,22 @@
 <div class="row">
   <div class="col s12">
 
+    <!-- Select between table or card view -->
+    <div class="row">
+        <form action="#">
+          <div class="row">
+              <div class="input-field inline">
+                <input class="with-gap" name="viewMode" type="radio" id="table" ng-model="viewMode"  value="table" />
+                <label for="table">Table view</label>
+              </div>
+              <div class="input-field inline">
+                <input class="with-gap" name="viewMode" type="radio" id="card" ng-model="viewMode" value="card" />
+                <label for="card">Cards view</label>
+              </div>
+          </div>
+        </form>
+    </div>  
+
     <div class="row">
       <!--apikey form-->
       <div class="col s12 m4">
@@ -42,14 +58,15 @@
     </div>
     <!--end alerts-->
 
-    <!-- table -->
-    <div class="row">
+    <!-- cards -->
+    <div class="row" ng-if="viewMode == 'card'">
       <div class="col s12 m4" ng-repeat="group in groups">
         <div class="card">
           <div class="card-image">
             <img src="images/group-default.png">
             <span class="card-title">{{group.name}}</span>
-            <a class="btn-floating halfway-fab waves-effect waves-light orange accent-2"><i class="material-icons">edit</i></a>
+            <a class="btn-floating halfway-fab waves-effect waves-light orange accent-2"  ng-click="openModal('update',group)"><i class="material-icons">edit</i></a>
+            <a class="btn-floating waves-effect waves-light red accent-2 right" ng-click="deleteGroup(group)" ><i class="material-icons">delete</i></a>
           </div>
           <div class="card-content">
             <p><b>Description:</b> {{group.description}}</p>
@@ -59,6 +76,23 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- table -->
+    <div class="row" ng-if="viewMode == 'table'">
+        <ul class="collection">
+          <li class="collection-item avatar"  ng-repeat="group in groups">
+            <img src="images/group-default.png" alt="" class="circle">
+            <span class="title">{{group.name}}</span>
+            <p>{{group.description}}<br>
+              <span ng-repeat="member in group.members">{{member}}, </span>
+            </p>
+            <p class="secondary-content">
+              <a href="" ng-click="openModal('update',group)" ><i class="material-icons orange-text">mode_edit</i></a>
+              <a href="" ng-click="deleteGroup(group)" ><i class="material-icons red-text">delete</i></a>
+            </p>
+          </li>
+        </ul>
     </div>
 
     <!-- pagination -->
@@ -78,50 +112,19 @@
 
   </div>
 
+  <!-- Add button -->
+  <div class="fixed-action-btn horizontal">
+    <a class="btn-floating btn-large green"  ng-click="openModal('create')">
+      <i class="material-icons">add</i>
+    </a>
+  </div>
 
-
-
-
-
-  <form name="newGroupForm">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Members</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <td><input class="form-control newGroupInput " type="text" ng-model="newGroup.name" /></td>
-        <td><input class="form-control newGroupInput" type="text" ng-model="newGroup.description" /></td>
-        <td><input type="text" class="form-control newGroupInput" id="tags" ng-model="newGroup.members" ng-list=", "></td>
-        <td><button class="btn btn-primary" ng-click="addGroup()">Add</button></td>
-
-        <tr ng-repeat="group in groups">
-          <td>{{group.name}}</td>
-          <td>{{group.description}}</td>
-          <td><span ng-repeat="member in group.members">{{member}}, </span></td>
-          <td>
-            <button class="btn btn-warning" ng-click="openModal(group)">Edit</button>
-            <button class="btn btn-danger" ng-click="deleteGroup(group)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </form>
 </div>
 
-<div class="modal fade" tabindex="-1" id="myModal" role="dialog">
-  <div class="modal-dialog" role="document">
+<div class="modal" id="editModal">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Edit Group</h4>
-      </div>
-      <div class="modal-body">
-        <form>
+      <h4 class="modal-title">Edit Group</h4>
+      <form>
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" placeholder="Name" ng-model="newGroup.name">
@@ -135,14 +138,12 @@
             <input type="text" class="form-control" id="members" ng-model="newGroup.members" ng-list=", " placeholder="Member1,Member2">
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" id="update" class="btn btn-warning" ng-click="updateGroup()">Update</button>
-      </div>
+    </div>
+    <div class="modal-footer">
+        <a href="" class="modal-action modal-close waves-effect waves-green btn-flat" data-dismiss="modal">Close</a>
+        <a href="" id="update" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="updateGroup()" ng-if="modalMode == 'update'">Update</a>
+        <a href="" id="save" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="addGroup()" ng-if="modalMode == 'create'">Save</a>
     </div>
     <!-- /.modal-content -->
-  </div>
-  <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->

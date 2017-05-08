@@ -3,14 +3,15 @@
 angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScope, $http, $timeout) {
 
     $scope.apikey = $rootScope.apikey;
-
+    $scope.viewMode = "table";
     $scope.refresh = function () {
-        $scope.cleanError()
+        $scope.cleanError();
         if (!$rootScope.apikey) {
             $rootScope.apikey = $scope.apikey;
         }
         $http.get("/api/v1/groups?apikey=" + $scope.apikey).then(function (response) {
             $scope.groups = response.data;
+            $('.modal').modal();
         }, function (err) {
             if ($scope.apikey) {
                 error(err.data);
@@ -99,14 +100,19 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     function clean() {
         $scope.newGroup = {};
-        $('#myModal').modal('hide');
+        $('#editModal').modal('close');
     }
 
-    $scope.openModal = function (group) {
-        if (group) {
+    $scope.openModal = function (action, group) {
+        if (group && action == 'update') {
             $scope.latestName = group.name;
             $scope.newGroup = group;
-            $('#myModal').modal('show');
+            $scope.modalMode = 'update';
+            $('#editModal').modal('open');
+        } else if (action == 'create') {
+            $scope.newGroup = {};
+            $scope.modalMode = 'create';
+            $('#editModal').modal('open');
         }
     };
 
@@ -114,7 +120,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
         if (group) {
             $scope.latestName = group.name;
             $scope.newGroup = group;
-            $('#myModal').modal('show');
+            $('#editModal').modal('close');
         }
     };
 
