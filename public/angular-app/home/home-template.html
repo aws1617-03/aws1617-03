@@ -1,31 +1,59 @@
-<div class="row bg-primary img-rounded">
-    <div class="col-sm-12" style="padding-top: 30px;padding-bottom: 30px;">
-        <h1>Groups Microservice</h1>
-        <h4>Manage reseach groups</h4>
-
-        <a class="pull-right" href="https://github.com/aws1617-03/aws1617-03" target="_blank">
-            <img src="images/github-logo.png" style="width: 150px;"></img>
-        </a>
-    </div>
-</div>
-
 <div class="row" style="margin-top: 15px;">
-    <div class="col-sm-12">
-        <ul class="nav nav-pills">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#!/groups">Manage Groups</a></li>
-            <li role="presentation"><a href="#!/api/v1/tests">Postman tests</a></li>
-        </ul>
-    </div>
-</div>
+    <div class="col s12 m6">
 
-<div class="row" style="margin-top: 15px;">
-    <div class="jumbotron">
-        <p><b>Group:</b> aws1617-03</p>
-        <p><b>Authors:</b></p>
-        <ul>
-            <li>Arteaga, Daniel</li>
-            <li>Ruiz, Alejandro</li>
-        </ul>
+        <div class="card">
+            <h5 class="card-content">Development News</h5>
+            <div class="card-image">
+                <img src="images/github-flow.png">
+            </div>
+            <div class="card-content">
+
+                <div class="row" ng-repeat="event in events">
+                    <div class="col s12">
+                        {{lintDate(event.created_at)}} - {{ getTitle(event) }} by
+                        <a href="https://github.com/{{event.actor.login}}" target="_blank">
+                            {{event.actor.login}}
+                        </a>
+                        <a href="{{ seeOnGithub(event) }}" target="_blank">See on Github</a>
+                        <!--<pre>{{ event | json:2 }}</pre>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col s12 m6">
+
+        <div class="card">
+            <h5 class="card-content">Team components</h5>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 m6 l4 center" ng-repeat="collaborator in collaborators">
+                        <p>
+                            <a href="{{collaborator.html_url}}" target="_blank">
+                                <img src="{{collaborator.avatar_url}}" alt="Component's avatar" class="circle responsive-img" style="max-width: 80px">
+                            </a>
+                        </p>
+                        <p>
+                            <i class="material-icons">group</i> {{collaborator.name}}
+                        </p>
+                        <p>
+                            <a href="{{collaborator.html_url}}" target="_blank">@{{collaborator.login}}</a>
+                        </p>
+
+                        <!--<pre>{{ collaborator | json:2 }}</pre>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h5 class="card-content">CI Status</h5>
+            <div class="card-content">
+                <!--<pre>{{ collaborators | json:2 }}</pre>-->
+                <img src="https://travis-ci.org/aws1617-03/aws1617-03.svg?branch=master" alt="travis status" class="responsive-img" />
+            </div>
+        </div>
+
     </div>
 </div>

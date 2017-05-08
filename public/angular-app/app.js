@@ -1,16 +1,27 @@
 'use strict';
 
-angular.module("groups-app", ['ui.router'])
-    .config(function ($stateProvider, $urlRouterProvider) {
+angular.module("groups-app", ['ui.router', 'ngAnimate'])
+    .config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise("/");
+
+
+        $httpProvider.defaults.headers.common.Authorization = 'token ' + token;
 
         $stateProvider
             .state('site', {
                 abstract: true,
-                views: {}
+                views: {
+                    'navbar@': {
+                        templateUrl: 'angular-app/navbar/navbar-template.html',
+                        controller: 'navbarCtl'
+                    }, 'footer@': {
+                        templateUrl: 'angular-app/footer/footer-template.html',
+                        controller: 'footerCtl'
+                    }
+                }
 
-            }).state('helps', {
+            }).state('home', {
 
                 url: '/',
                 parent: 'site',
@@ -44,4 +55,5 @@ angular.module("groups-app", ['ui.router'])
                 }
 
             });
+
     });
