@@ -5,9 +5,6 @@ angular.module("groups-app", ['ui.router', 'ngAnimate'])
 
         $urlRouterProvider.otherwise("/");
 
-
-        $httpProvider.defaults.headers.common.Authorization = 'token ' + token;
-
         $stateProvider
             .state('site', {
                 abstract: true,
@@ -55,5 +52,14 @@ angular.module("groups-app", ['ui.router', 'ngAnimate'])
                 }
 
             });
+
+    }).run(function ($http, $rootScope) {
+        var clientId = "84829f0084de9729788e23f5cc468408811f57d6";
+        var token;
+
+        $http.get('/api/v1/tokens/github?clientId=' + clientId).then(function (response) {
+            token = response.data;
+            $rootScope.Authorization = 'token ' + token;
+        });
 
     });

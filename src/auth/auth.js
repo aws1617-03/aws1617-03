@@ -11,7 +11,7 @@ module.exports = {
 function _authmiddelware(req, res, next) {
     var reqApikey = req.query.apikey;
 
-    if (reqApikey === APIKEY) {
+    if (reqApikey === APIKEY || req.query.clientId) {
         next();
     } else {
         res.status(401).json(new Errors.error401());

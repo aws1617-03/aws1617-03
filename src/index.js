@@ -15,6 +15,7 @@ config.addConfiguration(path.join(__dirname, '/../app-configuration.yaml'));
 
 //Require controllers
 var groupsControllers = require('./controllers/groups-controllers'),
+    tokensControllers = require('./controllers/tokens-controllers'),
     auth = require('./auth/auth');
 
 //create express app
@@ -86,6 +87,15 @@ app.delete(path.join(apiBase, 'groups'), groupsControllers.deleteAll);
  * 
  */
 app.delete(path.join(apiBase, 'groups/:name'), groupsControllers.deleteOne);
+
+
+/**
+ *  GET ../tokens/github
+ *  
+ *  query params:
+ *    - clientId
+ */
+app.get(path.join(apiBase, 'tokens/github'), tokensControllers.getGitHub);
 
 //START APP
 var port = process.env.PORT || config.port;
