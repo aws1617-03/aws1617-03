@@ -1,32 +1,6 @@
 <div class="row" style="margin-top: 15px;">
-    <a href="" class="btn" ng-if="authService.isAuthenticated()" ng-click="authService.logout()">Log out</a> 
-</div>
-
-<div class="row" style="margin-top: 15px;">
     <div class="col s12 m6">
-
-        <div class="card">
-            <div class="card-image">
-                <img src="images/github-flow.png">
-            </div>
-            <div class="card-content">
-                <span class="card-title" style="font-size: 1.64rem;line-height: 110%;font-weight: 400;margin-bottom: 25px;">Development News</span>
-                <div class="row" ng-repeat="event in events">
-                    <div class="col s12">
-                        {{lintDate(event.created_at)}} - {{ getTitle(event) }} by
-                        <a href="https://github.com/{{event.actor.login}}" target="_blank">
-                            {{event.actor.login}}
-                        </a>
-                        <a href="{{ seeOnGithub(event) }}" target="_blank">See on Github</a>
-                        <!--<pre>{{ event | json:2 }}</pre>-->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="col s12 m6">
-        <div class="card">
+        <div class="card fade" ng-if="!authService.isAuthenticated()">
             <div class="card-content">
                 <span class="card-title" style="font-size: 1.64rem;line-height: 110%;font-weight: 400;margin-bottom: 25px;">Login to your account</span>
                 <div class="row">
@@ -88,6 +62,28 @@
                 <span class="card-title" style="font-size: 1.64rem;line-height: 110%;font-weight: 400;margin-bottom: 15px;">CI status</span>
                 <!--<pre>{{ collaborators | json:2 }}</pre>-->
                 <img src="https://travis-ci.org/aws1617-03/aws1617-03.svg?branch=master" alt="travis status" class="responsive-img" />
+            </div>
+        </div>
+
+    </div>
+     <div class="col s12 m6">
+
+        <div class="card">
+            <div class="card-image">
+                <img src="images/github-flow.png">
+            </div>
+            <div class="card-content">
+                <span class="card-title" style="font-size: 1.64rem;line-height: 110%;font-weight: 400;margin-bottom: 25px;">Development News</span>
+                <div class="row" ng-repeat="event in events">
+                    <div class="col s12">
+                        {{lintDate(event.created_at)}} - {{ getTitle(event) }} by
+                        <a href="https://github.com/{{event.actor.login}}" target="_blank">
+                            {{event.actor.login}}
+                        </a>
+                        <a href="{{ seeOnGithub(event) }}" target="_blank">See on Github</a>
+                        <!--<pre>{{ event | json:2 }}</pre>-->
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -20,3 +20,15 @@
 .fade.ng-leave.ng-leave-active {
   opacity:0;
 }
+
+.login-photo {
+    width: 3rem;
+    height: 3rem;
+    margin: 0.5rem auto;
+    overflow: hidden;
+    border-radius: 50%;
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    margin-right: 7px;
+}

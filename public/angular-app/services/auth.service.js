@@ -3,7 +3,6 @@
 angular
     .module('groups-app')
     .service('authService', function authService($state, angularAuth0, authManager) {
-
         function login(username, password) {
             angularAuth0.redirect.loginWithCredentials({
                 connection: 'Username-Password-Authentication',
@@ -38,6 +37,12 @@ angular
                         console.log(err);
                     }
                     if (authResult && authResult.idToken) {
+                        angularAuth0.client.userInfo(authResult.accessToken, function (err, user) {
+                            // Now you have the user's information
+                            if (err) { console.log(err); } else {
+                                localStorage.setItem('userInfo', JSON.stringify(user));
+                            }
+                        });
                         setUser(authResult);
                     }
                 });
@@ -46,6 +51,7 @@ angular
         function logout() {
             localStorage.removeItem('access_token');
             localStorage.removeItem('id_token');
+            localStorage.removeItem('userInfo');
             $state.go('home');
         }
 

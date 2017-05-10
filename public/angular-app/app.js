@@ -68,7 +68,7 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
 
             });
 
-    }).run(function ($http, $rootScope, authService) {
+    }).run(function ($http, $rootScope, authService, authManager) {
         var clientId = "84829f0084de9729788e23f5cc468408811f57d6";
         var token;
 
@@ -78,5 +78,6 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
         });
 
         authService.handleParseHash();
+        authManager.checkAuthOnRefresh();
 
     });
