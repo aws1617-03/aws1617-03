@@ -1,9 +1,24 @@
 'use strict';
 
-angular.module("groups-app", ['ui.router', 'ngAnimate'])
-    .config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
+angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnimate'])
+    .config(function ($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider, angularAuth0Provider, jwtOptionsProvider) {
 
         $urlRouterProvider.otherwise("/");
+
+        angularAuth0Provider.init({
+            clientID: 'ERBtyxsi5JTCOTXe7tqpxzHUfZWEKNKT',
+            domain: 'dani8art.eu.auth0.com',
+            responseType: 'token id_token',
+            redirectUri: window.location.href
+        });
+
+        jwtOptionsProvider.config({
+            tokenGetter: function () {
+                return localStorage.getItem('id_token');
+            }
+        });
+
+        $locationProvider.hashPrefix('');
 
         $stateProvider
             .state('site', {
@@ -53,7 +68,7 @@ angular.module("groups-app", ['ui.router', 'ngAnimate'])
 
             });
 
-    }).run(function ($http, $rootScope) {
+    }).run(function ($http, $rootScope, authService) {
         var clientId = "84829f0084de9729788e23f5cc468408811f57d6";
         var token;
 
@@ -61,5 +76,7 @@ angular.module("groups-app", ['ui.router', 'ngAnimate'])
             token = response.data;
             $rootScope.Authorization = 'token ' + token;
         });
+
+        authService.handleParseHash();
 
     });

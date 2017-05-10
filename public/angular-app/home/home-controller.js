@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module("groups-app").controller("homeCtl", function ($scope, $http, $q, $rootScope) {
+angular.module("groups-app").controller("homeCtl", function ($scope, $http, $q, $rootScope, authService) {
+
+  $scope.authService = authService;
 
   $http.defaults.headers.common.Authorization = $rootScope.Authorization;
 
