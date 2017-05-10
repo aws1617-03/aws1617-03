@@ -2,14 +2,13 @@
 
 angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScope, $http, $timeout) {
 
-    $scope.apikey = $rootScope.apikey;
     $scope.viewMode = "table";
     $scope.refresh = function () {
         $scope.cleanError();
         if (!$rootScope.apikey) {
             $rootScope.apikey = $scope.apikey;
         }
-        $http.get("/api/v1/groups?apikey=" + $scope.apikey).then(function (response) {
+        $http.get("/api/v1/groups").then(function (response) {
             $scope.groups = response.data;
             $('.modal').modal();
         }, function (err) {
@@ -21,7 +20,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     $scope.addGroup = function () {
         $scope.cleanError();
-        $http.post("/api/v1/groups?apikey=" + $scope.apikey, $scope.newGroup).then(function (response) {
+        $http.post("/api/v1/groups", $scope.newGroup).then(function (response) {
             if (response.status != 201) {
                 error(response.data);
             } else {
@@ -37,7 +36,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     $scope.deleteGroup = function (group) {
         $scope.cleanError();
-        $http.delete('/api/v1/groups/' + group.name + "?apikey=" + $scope.apikey).then((response) => {
+        $http.delete('/api/v1/groups/' + group.name + "").then((response) => {
 
             if (response.status != 200) {
                 error(response.data);
@@ -54,7 +53,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     $scope.updateGroup = function () {
         $scope.cleanError();
-        $http.put('/api/v1/groups/' + $scope.latestName + "?apikey=" + $scope.apikey, $scope.newGroup).then((response) => {
+        $http.put('/api/v1/groups/' + $scope.latestName + "", $scope.newGroup).then((response) => {
 
             if (response.status != 200) {
                 error(response.data);

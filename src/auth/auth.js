@@ -1,23 +1,11 @@
 'use strict';
 
 var jwt = require('express-jwt'),
+    jsonwebtoken = require('jsonwebtoken'),
     jwksRsa = require('jwks-rsa');
 
 var _authmiddelware = jwt({
-    // Dynamically provide a signing key
-    // based on the kid in the header and 
-    // the singing keys provided by the JWKS endpoint.
-    secret: jwksRsa.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: 'https://dani8art.eu.auth0.com/.well-known/jwks.json'
-    }),
-
-    // Validate the audience and the issuer.
-    audience: 'https://aws1617-03.herokuapp.com',
-    issuer: 'https://dani8art.eu.auth0.com/',
-    algorithms: ['RS256']
+    secret: "fsQcE35Cop5VilZMCl12G8ZxjfQVxt5J1nAJFBgffbmJaAlpSDa5JEmCtGp0cBP_"
 });
 
 module.exports = {

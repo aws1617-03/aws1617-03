@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnimate'])
-    .config(function ($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider, angularAuth0Provider, jwtOptionsProvider) {
+    .config(function ($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider, angularAuth0Provider, jwtOptionsProvider, jwtInterceptorProvider) {
 
         $urlRouterProvider.otherwise("/");
 
@@ -15,8 +15,15 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
         jwtOptionsProvider.config({
             tokenGetter: function () {
                 return localStorage.getItem('id_token');
-            }
+            },
+            whiteListedDomains: ['api.github.com']
         });
+
+        jwtInterceptorProvider.tokenGetter = function () {
+            return localStorage.getItem('id_token');
+        };
+
+        $httpProvider.interceptors.push('jwtInterceptor');
 
         $locationProvider.hashPrefix('');
 
@@ -69,13 +76,6 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
             });
 
     }).run(function ($http, $rootScope, authService, authManager) {
-        var clientId = "84829f0084de9729788e23f5cc468408811f57d6";
-        var token;
-
-        $http.get('/api/v1/tokens/github?clientId=' + clientId).then(function (response) {
-            token = response.data;
-            $rootScope.Authorization = 'token ' + token;
-        });
 
         authService.handleParseHash();
         authManager.checkAuthOnRefresh();

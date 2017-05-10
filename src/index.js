@@ -35,7 +35,7 @@ app.use('/', express.static('./public'));
  *****************************/
 var apiBase = config.api.basePath;
 
-app.use('/api', auth.authmiddelware);
+
 
 /**
  *  GET ../groups
@@ -45,7 +45,7 @@ app.use('/api', auth.authmiddelware);
  *    - limit
  *    - page
  */
-app.get(path.join(apiBase, 'groups'), groupsControllers.getAll);
+app.get(path.join(apiBase, 'groups'), auth.authmiddelware, groupsControllers.getAll);
 
 /**
  *  GET ../groups/:id
@@ -53,7 +53,7 @@ app.get(path.join(apiBase, 'groups'), groupsControllers.getAll);
  * 
  *  query params: []
  */
-app.get(path.join(apiBase, 'groups/:name'), groupsControllers.getOneByName);
+app.get(path.join(apiBase, 'groups/:name'), auth.authmiddelware, groupsControllers.getOneByName);
 
 /**
  *  POST ../groups
@@ -64,7 +64,7 @@ app.get(path.join(apiBase, 'groups/:name'), groupsControllers.getOneByName);
  *     "members": ["Pablo F.", "Antonio R."]
  *  }
  */
-app.post(path.join(apiBase, 'groups'), groupsControllers.create);
+app.post(path.join(apiBase, 'groups'), auth.authmiddelware, groupsControllers.create);
 
 /**
  *  PUT ../groups/:id
@@ -75,18 +75,18 @@ app.post(path.join(apiBase, 'groups'), groupsControllers.create);
  *     "members": ["Pablo F.", "Antonio R."]
  *  }
  */
-app.put(path.join(apiBase, 'groups/:name'), groupsControllers.update);
+app.put(path.join(apiBase, 'groups/:name'), auth.authmiddelware, groupsControllers.update);
 
 /**
  *  DELETE ../groups
  */
-app.delete(path.join(apiBase, 'groups'), groupsControllers.deleteAll);
+app.delete(path.join(apiBase, 'groups'), auth.authmiddelware, groupsControllers.deleteAll);
 
 /**
  *  DELETE ../groups/:id
  * 
  */
-app.delete(path.join(apiBase, 'groups/:name'), groupsControllers.deleteOne);
+app.delete(path.join(apiBase, 'groups/:name'), auth.authmiddelware, groupsControllers.deleteOne);
 
 
 /**

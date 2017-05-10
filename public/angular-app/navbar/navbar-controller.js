@@ -5,7 +5,10 @@ angular.module("groups-app").controller("navbarCtl", function ($scope, $http, $r
     $scope.authService = authService;
 
     $timeout(function () {
-        $(".button-collapse").sideNav();
+        $(".button-collapse").sideNav({
+            closeOnClick: true,
+            draggable: true
+        });
     }, 1000);
 
 

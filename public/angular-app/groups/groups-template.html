@@ -18,29 +18,9 @@
     </div>  
 
     <div class="row">
-      <!--apikey form-->
-      <div class="col s12 m4">
-        <form ng-submit="refresh()">
-          <div class="input-field">
-            <i class="material-icons prefix">vpn_key</i>
-            <input type="text" id="apikey" placeholder="API key" ng-model="apikey">
-
-            <input type="submit" class="btn btn-default hide" />
-          </div>
-        </form>
-      </div>
-      <!--end apikey form-->
-
       <!-- alerts -->
-      <div class="col s12 m8">
-        <div class="row fade" ng-if="!apikey">
-          <div class="col s12">
-            <div class="card-panel orange lighten-2">
-              <span class="white-text"><strong>Authentication is required!</strong> Please get your APIKEY.</span>
-            </div>
-          </div>
-        </div>
-        <div class="row fade" ng-if="error && apikey">
+      <div class="col s12 m12">
+        <div class="row fade" ng-if="error">
           <div class="col s12">
             <div class="card-panel red lighten-2">
               <strong>{{error.code}}</strong> {{error.message}}.
