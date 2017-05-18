@@ -11,7 +11,6 @@ var chai = require('chai'),
 var port = process.env.PORT || config.port;
 
 //Options to get authorizations codes.
-//sPFcDY6Nrh2Pjc78gebjQSQaVPs4Yu6TU5Tgiaa1WGLgJ02BJFz75v25h1zDN8B5
 var authOptions = {
     method: 'POST',
     url: 'https://dani8art.eu.auth0.com/oauth/token',
