@@ -9,7 +9,9 @@ angular
                 username: username,
                 password: password,
             }, function (err) {
-                if (err) { return alert(err.description); }
+                if (err) {
+                    return alert(err.description);
+                }
             });
         }
 
@@ -30,8 +32,9 @@ angular
         }
 
         function handleParseHash() {
-            angularAuth0.parseHash(
-                { _idTokenVerification: false },
+            angularAuth0.parseHash({
+                    _idTokenVerification: false
+                },
                 function (err, authResult) {
                     if (err) {
                         console.log(err);
@@ -39,7 +42,9 @@ angular
                     if (authResult && authResult.idToken) {
                         angularAuth0.client.userInfo(authResult.accessToken, function (err, user) {
                             // Now you have the user's information
-                            if (err) { console.log(err); } else {
+                            if (err) {
+                                console.log(err);
+                            } else {
                                 localStorage.setItem('userInfo', JSON.stringify(user));
                             }
                         });
@@ -56,6 +61,7 @@ angular
         }
 
         function setUser(authResult) {
+            console.log(authResult);
             localStorage.setItem('access_token', authResult.accessToken);
             localStorage.setItem('id_token', authResult.idToken);
         }

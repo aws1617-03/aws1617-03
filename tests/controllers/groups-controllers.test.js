@@ -1,5 +1,6 @@
 'use strict';
 
+var auth = require('../../src/auth/auth');
 var request = require('request');
 var server = require('../../src/index');
 var config = require('../../src/config/config');
@@ -9,62 +10,102 @@ var chai = require('chai'),
 
 var port = process.env.PORT || config.port;
 
+//Options to get authorizations codes.
+//sPFcDY6Nrh2Pjc78gebjQSQaVPs4Yu6TU5Tgiaa1WGLgJ02BJFz75v25h1zDN8B5
+var authOptions = {
+    method: 'POST',
+    url: 'https://dani8art.eu.auth0.com/oauth/token',
+    headers: {
+        'content-type': 'application/json'
+    },
+    body: {
+        grant_type: 'client_credentials',
+        client_id: 'rjo6JzVVkA4r6mLIBRBOQ2wLrqTYtBAf',
+        client_secret: process.env.CLIENT_SECRET,
+        audience: "https://aws1617-03.herokuapp.com"
+    },
+    json: true
+};
+
+
 process.env.NODE_ENV = "test";
 
-var authString = "?apikey=jDerK=e3dasE";
+var authString;
 
 describe('Groups Controllers Tests', function () {
 
     before(function (done) {
         this.timeout(10000);
-        server.deploy(function (err) {
-            if (err) {
-
-                done(err);
+        request(authOptions, function (error, response, body) {
+            if (error) {
+                done(new Error(error));
             } else {
-                request.post({
-                    url: 'http://localhost:' + port + '/api/v1/groups' + authString,
-                    json: true,
-                    body: {
-                        name: "ISA-tests1"
-                    }
-                }, function (err, res) {
-                    if (err) {
-                        done(err);
-                    } else if (res.statusCode != 201) {
-                        done(new Error("Status Code not equal 201"));
-                    } else {
-                        request.post({
-                            url: 'http://localhost:' + port + '/api/v1/groups' + authString,
-                            json: true,
-                            body: {
-                                name: "ISA-tests2"
-                            }
-                        }, function (err, res) {
-                            if (err) {
-                                done(err);
-                            } else if (res.statusCode != 201) {
-                                done(new Error("Status Code not equal 201"));
-                            } else {
-                                request.post({
-                                    url: 'http://localhost:' + port + '/api/v1/groups' + authString,
-                                    json: true,
-                                    body: {
-                                        name: "ISA-tests3"
-                                    }
-                                }, function (err, res) {
-                                    if (err) {
-                                        done(err);
-                                    } else if (res.statusCode != 201) {
-                                        done(new Error("Status Code not equal 201"));
-                                    } else {
-                                        done();
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
+                if (!body.error) {
+                    authString = "Bearer " + body.access_token;
+                    server.deploy(function (err) {
+                        if (err) {
+
+                            done(err);
+                        } else {
+                            request.post({
+                                url: 'http://localhost:' + port + '/api/v1/groups',
+                                json: true,
+                                body: {
+                                    name: "ISA-tests1"
+                                },
+                                headers: {
+                                    Authorization: authString
+                                }
+                            }, function (err, res, body) {
+                                if (err) {
+                                    done(err);
+                                } else if (res.statusCode != 201) {
+                                    console.log(res.statusCode);
+                                    console.log(body);
+                                    done(new Error("Status Code not equal 201"));
+                                } else {
+                                    request.post({
+                                        url: 'http://localhost:' + port + '/api/v1/groups',
+                                        json: true,
+                                        body: {
+                                            name: "ISA-tests2"
+                                        },
+                                        headers: {
+                                            Authorization: authString
+                                        }
+                                    }, function (err, res) {
+                                        if (err) {
+                                            done(err);
+                                        } else if (res.statusCode != 201) {
+                                            done(new Error("Status Code not equal 201"));
+                                        } else {
+                                            request.post({
+                                                url: 'http://localhost:' + port + '/api/v1/groups',
+                                                json: true,
+                                                body: {
+                                                    name: "ISA-tests3"
+                                                },
+                                                headers: {
+                                                    Authorization: authString
+                                                }
+                                            }, function (err, res) {
+                                                if (err) {
+                                                    done(err);
+                                                } else if (res.statusCode != 201) {
+                                                    done(new Error("Status Code not equal 201"));
+                                                } else {
+                                                    done();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    done(new Error(JSON.stringify(body, null, 2)));
+                }
             }
         });
     });
@@ -77,10 +118,13 @@ describe('Groups Controllers Tests', function () {
 
     it('POST /groups', function (done) {
         request.post({
-            url: 'http://localhost:' + port + '/api/v1/groups' + authString,
+            url: 'http://localhost:' + port + '/api/v1/groups',
             json: true,
             body: {
                 name: "ISA-tests"
+            },
+            headers: {
+                Authorization: authString
             }
         }, function (err, res) {
             if (err) {
@@ -96,8 +140,11 @@ describe('Groups Controllers Tests', function () {
 
     it('GET ALL /groups', function (done) {
         request.get({
-            url: 'http://localhost:' + port + '/api/v1/groups' + authString,
+            url: 'http://localhost:' + port + '/api/v1/groups',
             json: true,
+            headers: {
+                Authorization: authString
+            }
 
         }, function (err, res, body) {
             if (err) {
@@ -114,10 +161,13 @@ describe('Groups Controllers Tests', function () {
 
     it('UPDATE /groups', function (done) {
         request.put({
-            url: 'http://localhost:' + port + '/api/v1/groups/ISA-tests' + authString,
+            url: 'http://localhost:' + port + '/api/v1/groups/ISA-tests',
             json: true,
             body: {
                 name: "ISAUpdate-tests"
+            },
+            headers: {
+                Authorization: authString
             }
         }, function (err, res) {
             if (err) {
@@ -134,8 +184,11 @@ describe('Groups Controllers Tests', function () {
 
     it('GET /groups/ISAUpdate-tests', function (done) {
         request.get({
-            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests' + authString,
+            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests',
             json: true,
+            headers: {
+                Authorization: authString
+            }
         }, function (err, res, body) {
             if (err) {
                 done(err);
@@ -151,8 +204,11 @@ describe('Groups Controllers Tests', function () {
 
     it('DELETE /groups/ISAUpdate-tests', function (done) {
         request.delete({
-            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests' + authString,
-            json: true
+            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests',
+            json: true,
+            headers: {
+                Authorization: authString
+            }
         }, function (err, res) {
             if (err) {
                 done(err);
@@ -167,8 +223,11 @@ describe('Groups Controllers Tests', function () {
 
     it('GET /groups/ISAUpdate-tests NOT FOUND', function (done) {
         request.get({
-            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests' + authString,
+            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests',
             json: true,
+            headers: {
+                Authorization: authString
+            }
         }, function (err, res) {
             if (err) {
                 done(err);
@@ -183,8 +242,11 @@ describe('Groups Controllers Tests', function () {
 
     it('DELETE ALL /groups', function (done) {
         request.delete({
-            url: 'http://localhost:' + port + '/api/v1/groups' + authString,
-            json: true
+            url: 'http://localhost:' + port + '/api/v1/groups',
+            json: true,
+            headers: {
+                Authorization: authString
+            }
         }, function (err, res) {
             if (err) {
                 done(err);
@@ -199,8 +261,11 @@ describe('Groups Controllers Tests', function () {
 
     it('GET ALL /groups', function (done) {
         request.get({
-            url: 'http://localhost:' + port + '/api/v1/groups' + authString,
+            url: 'http://localhost:' + port + '/api/v1/groups',
             json: true,
+            headers: {
+                Authorization: authString
+            }
 
         }, function (err, res, body) {
             if (err) {
@@ -217,16 +282,12 @@ describe('Groups Controllers Tests', function () {
     it('NOT authenticated request', function (done) {
         request.get({
             url: 'http://localhost:' + port + '/api/v1/groups',
-            json: true,
-
+            json: true
         }, function (err, res, body) {
             if (err) {
                 done(err);
             } else {
                 expect(res.statusCode).to.equal(401);
-
-                expect(body.code).to.equal(401);
-                expect(body.message).to.equal("UNAUTHORIZED");
                 done();
             }
         });

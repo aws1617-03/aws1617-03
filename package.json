@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha tests/**/*.test.js",
     "start": "node server.js",
-    "postinstall": "npm install -g bower; bower install",
+    "postinstall": "bower install",
     "heroku": "git push heroku master"
   },
   "repository": {

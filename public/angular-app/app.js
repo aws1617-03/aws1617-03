@@ -34,7 +34,8 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
                     'navbar@': {
                         templateUrl: 'angular-app/navbar/navbar-template.html',
                         controller: 'navbarCtl'
-                    }, 'footer@': {
+                    },
+                    'footer@': {
                         templateUrl: 'angular-app/footer/footer-template.html',
                         controller: 'footerCtl'
                     }
