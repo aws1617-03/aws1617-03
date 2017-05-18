@@ -1,32 +1,42 @@
 <div class="row" style="margin-top: 15px;">
     <div class="col s12 m6">
-
-        <div class="card">
-            <h5 class="card-content">Development News</h5>
-            <div class="card-image">
-                <img src="images/github-flow.png">
-            </div>
+        <div class="card fade" ng-if="!authService.isAuthenticated()">
             <div class="card-content">
-
-                <div class="row" ng-repeat="event in events">
-                    <div class="col s12">
-                        {{lintDate(event.created_at)}} - {{ getTitle(event) }} by
-                        <a href="https://github.com/{{event.actor.login}}" target="_blank">
-                            {{event.actor.login}}
-                        </a>
-                        <a href="{{ seeOnGithub(event) }}" target="_blank">See on Github</a>
-                        <!--<pre>{{ event | json:2 }}</pre>-->
-                    </div>
+                <span class="card-title" style="font-size: 1.64rem;line-height: 110%;font-weight: 400;margin-bottom: 25px;">Login to your account</span>
+                <div class="row">
+                    <form class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="small material-icons prefix">account_circle</i>
+                                <input placeholder="Username" id="username" type="text" name="username" ng-model="username" ng-disabled="loading">
+                                <label for="first_name" class="active">Username</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 0px">
+                            <div class="input-field col s12">
+                                <i class="small material-icons prefix">lock_outline</i>
+                                <input placeholder="Password" id="password" type="password" name="password" ng-model="password" ng-disabled="loading">
+                                <label for="password" class="active">Password</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12 center">
+                                <button  class="btn" ng-click="authService.login(username,password)" ng-disabled="loading">Login</button>
+                                <button  class="btn" ng-click="authService.signup(username,password)" ng-disabled="loading">Sign up</button>
+                                <p class="center">
+                                    <a href="javascript:;" ng-click="authService.loginWithGoogle()">
+                                        Log In with Google
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-
-    </div>
-    <div class="col s12 m6">
-
         <div class="card">
-            <h5 class="card-content">Team components</h5>
             <div class="card-content">
+                <span class="card-title" style="font-size: 1.64rem;line-height: 110%;font-weight: 400;margin-bottom: 25px;">Team components</span>
                 <div class="row">
                     <div class="col s12 m6 l4 center" ng-repeat="collaborator in collaborators">
                         <p>
@@ -48,10 +58,32 @@
         </div>
 
         <div class="card">
-            <h5 class="card-content">CI Status</h5>
             <div class="card-content">
+                <span class="card-title" style="font-size: 1.64rem;line-height: 110%;font-weight: 400;margin-bottom: 15px;">CI status</span>
                 <!--<pre>{{ collaborators | json:2 }}</pre>-->
                 <img src="https://travis-ci.org/aws1617-03/aws1617-03.svg?branch=master" alt="travis status" class="responsive-img" />
+            </div>
+        </div>
+
+    </div>
+     <div class="col s12 m6">
+
+        <div class="card">
+            <div class="card-image">
+                <img src="images/github-flow.png">
+            </div>
+            <div class="card-content">
+                <span class="card-title" style="font-size: 1.64rem;line-height: 110%;font-weight: 400;margin-bottom: 25px;">Development News</span>
+                <div class="row" ng-repeat="event in events">
+                    <div class="col s12">
+                        {{lintDate(event.created_at)}} - {{ getTitle(event) }} by
+                        <a href="https://github.com/{{event.actor.login}}" target="_blank">
+                            {{event.actor.login}}
+                        </a>
+                        <a href="{{ seeOnGithub(event) }}" target="_blank">See on Github</a>
+                        <!--<pre>{{ event | json:2 }}</pre>-->
+                    </div>
+                </div>
             </div>
         </div>
 

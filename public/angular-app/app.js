@@ -1,9 +1,31 @@
 'use strict';
 
-angular.module("groups-app", ['ui.router', 'ngAnimate'])
-    .config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
+angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnimate'])
+    .config(function ($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider, angularAuth0Provider, jwtOptionsProvider, jwtInterceptorProvider) {
 
         $urlRouterProvider.otherwise("/");
+
+        angularAuth0Provider.init({
+            clientID: 'ERBtyxsi5JTCOTXe7tqpxzHUfZWEKNKT',
+            domain: 'dani8art.eu.auth0.com',
+            responseType: 'token id_token',
+            redirectUri: window.location.href
+        });
+
+        jwtOptionsProvider.config({
+            tokenGetter: function () {
+                return localStorage.getItem('id_token');
+            },
+            whiteListedDomains: ['api.github.com']
+        });
+
+        jwtInterceptorProvider.tokenGetter = function () {
+            return localStorage.getItem('id_token');
+        };
+
+        $httpProvider.interceptors.push('jwtInterceptor');
+
+        $locationProvider.hashPrefix('');
 
         $stateProvider
             .state('site', {
@@ -12,7 +34,8 @@ angular.module("groups-app", ['ui.router', 'ngAnimate'])
                     'navbar@': {
                         templateUrl: 'angular-app/navbar/navbar-template.html',
                         controller: 'navbarCtl'
-                    }, 'footer@': {
+                    },
+                    'footer@': {
                         templateUrl: 'angular-app/footer/footer-template.html',
                         controller: 'footerCtl'
                     }
@@ -53,13 +76,9 @@ angular.module("groups-app", ['ui.router', 'ngAnimate'])
 
             });
 
-    }).run(function ($http, $rootScope) {
-        var clientId = "84829f0084de9729788e23f5cc468408811f57d6";
-        var token;
+    }).run(function ($http, $rootScope, authService, authManager) {
 
-        $http.get('/api/v1/tokens/github?clientId=' + clientId).then(function (response) {
-            token = response.data;
-            $rootScope.Authorization = 'token ' + token;
-        });
+        authService.handleParseHash();
+        authManager.checkAuthOnRefresh();
 
     });

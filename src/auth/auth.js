@@ -1,20 +1,21 @@
 'use strict';
 
-const APIKEY = "jDerK=e3dasE";
+var jwt = require('express-jwt'),
+    jsonwebtoken = require('jsonwebtoken'),
+    jwksRsa = require('jwks-rsa');
 
-var Errors = require('../controllers/error');
+var _authmiddelware = jwt({
+
+    secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: 'https://dani8art.eu.auth0.com/.well-known/jwks.json'
+    }),
+    // secret: "fsQcE35Cop5VilZMCl12G8ZxjfQVxt5J1nAJFBgffbmJaAlpSDa5JEmCtGp0cBP_",
+    algorithms: ['RS256']
+});
 
 module.exports = {
     authmiddelware: _authmiddelware
 };
-
-function _authmiddelware(req, res, next) {
-    var reqApikey = req.query.apikey;
-
-    if (reqApikey === APIKEY || req.query.clientId) {
-        next();
-    } else {
-        res.status(401).json(new Errors.error401());
-    }
-
-}

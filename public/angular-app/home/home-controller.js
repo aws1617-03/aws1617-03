@@ -1,28 +1,35 @@
 'use strict';
 
-angular.module("groups-app").controller("homeCtl", function ($scope, $http, $q, $rootScope) {
+angular.module("groups-app").controller("homeCtl", function ($scope, $http, $q, $rootScope, authService) {
 
-  $http.defaults.headers.common.Authorization = $rootScope.Authorization;
+  $scope.authService = authService;
 
-  $http.get("https://api.github.com/repos/aws1617-03/aws1617-03/events?per_page=8&page=1").then(function (response) {
-    $scope.events = response.data;
-  }, function (response) {
-    console.log(response);
-  });
+  var clientId = "84829f0084de9729788e23f5cc468408811f57d6";
+  var token;
 
-  $http.get("https://api.github.com/repos/aws1617-03/aws1617-03/collaborators").then(function (response) {
+  $http.get('/api/v1/tokens/github?clientId=' + clientId).then(function (response) {
+    token = response.data;
 
-    var promises = [];
-    response.data.forEach(function (element) {
-      promises.push($http.get(element.url));
+    $http.get("https://api.github.com/repos/aws1617-03/aws1617-03/events?per_page=8&page=1", { headers: { Authorization: "token " + token } }).then(function (response) {
+      $scope.events = response.data;
+    }, function (response) {
+      console.log(response);
     });
 
-    $q.all(promises).then(function (collaborators) {
-      $scope.collaborators = collaborators.map(function (element) { return element.data; });
-    }, function () { });
+    $http.get("https://api.github.com/repos/aws1617-03/aws1617-03/collaborators", { headers: { Authorization: "token " + token } }).then(function (response) {
 
-  }, function (response) {
-    console.log(response);
+      var promises = [];
+      response.data.forEach(function (element) {
+        promises.push($http.get(element.url, { headers: { Authorization: "token " + token } }));
+      });
+
+      $q.all(promises).then(function (collaborators) {
+        $scope.collaborators = collaborators.map(function (element) { return element.data; });
+      }, function () { });
+
+    }, function (response) {
+      console.log(response);
+    });
   });
 
   $scope.getTitle = function (event) {
