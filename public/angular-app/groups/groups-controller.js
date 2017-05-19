@@ -36,7 +36,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     $scope.deleteGroup = function (group) {
         $scope.cleanError();
-        $http.delete('/api/v1/groups/' + group.name + "").then((response) => {
+        $http.delete('/api/v1/groups/' + group._id + "").then((response) => {
 
             if (response.status != 200) {
                 error(response.data);
@@ -53,7 +53,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     $scope.updateGroup = function () {
         $scope.cleanError();
-        $http.put('/api/v1/groups/' + $scope.latestName + "", $scope.newGroup).then((response) => {
+        $http.put('/api/v1/groups/' + $scope.latestId + "", $scope.newGroup).then((response) => {
 
             if (response.status != 200) {
                 error(response.data);
@@ -104,7 +104,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     $scope.openModal = function (action, group) {
         if (group && action == 'update') {
-            $scope.latestName = group.name;
+            $scope.latestId = group._id;
             $scope.newGroup = group;
             $scope.modalMode = 'update';
             $('#editModal').modal('open');
@@ -117,7 +117,7 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
 
     $scope.close = function (group) {
         if (group) {
-            $scope.latestName = group.name;
+            $scope.latestId = group._id;
             $scope.newGroup = group;
             $('#editModal').modal('close');
         }
