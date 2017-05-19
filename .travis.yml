@@ -6,7 +6,7 @@ node_js:
 sudo: required
 
 services:
-  - mongodb
+  - docker
 
 before_script:
   - npm install grunt-cli -g

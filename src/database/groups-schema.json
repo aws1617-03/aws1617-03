@@ -12,6 +12,9 @@
             "items": {
                 "type": "string"
             }
+        },
+        "acronym_university": {
+            "type": "string"
         }
     },
     "additionalProperties": false,
