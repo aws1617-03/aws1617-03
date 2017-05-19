@@ -4,25 +4,55 @@ var Groups = require('../database/database').Groups;
 var Errors = require('./error');
 var validateGroups = require('../database/validator').validateGroups;
 
-var GroupsControllers = function () { };
+var GroupsControllers = function () {};
 
 
 GroupsControllers.prototype.getAll = function (req, res) {
     var page = req.query.page;
     var limit = parseInt(req.query.limit <= 10 ? req.query.limit : 10);
 
-    var query = Groups.find({}, function (err, groups) {
-        if (err) {
-            res.status(500).json(new Errors.error500());
+    var fields = req.query.fields ? req.query.fields.split(',') : null;
+    var values = req.query.values ? req.query.values.split(',') : null;
+
+    if ((fields && values) && (fields.length === 0 || values.length === 0 || fields.length !== values.length)) {
+
+        res.status(400).json(new Errors.error400('Invalid fields or values to filter'));
+
+    } else {
+        var q = {};
+        if (fields && values) {
+            q = buildQuery(fields, values);
+        }
+
+        var query = Groups.find(q, function (err, groups) {
+            if (err) {
+                res.status(500).json(new Errors.error500());
+            } else {
+                res.json(groups);
+            }
+        });
+
+        if (page) {
+            query.skip((page - 1) * limit).limit(limit);
+        }
+
+    }
+
+};
+
+function buildQuery(fields, values) {
+    var q = {};
+    fields.forEach(function (element, index) {
+        if (element === "name" || element === "members") {
+            q[element] = {
+                $regex: ".*" + values[index] + ".*"
+            };
         } else {
-            res.json(groups);
+            q[element] = values[index];
         }
     });
-
-    if (page) {
-        query.skip((page - 1) * limit).limit(limit);
-    }
-};
+    return q;
+}
 
 GroupsControllers.prototype.create = function (req, res) {
     var isValid = validateGroups(req.body);
@@ -57,7 +87,9 @@ GroupsControllers.prototype.getOneByName = function (req, res) {
     if (!name) {
         res.status(400).json(new Errors.error400());
     } else {
-        Groups.findOne({ name: name }, function (err, group) {
+        Groups.findOne({
+            name: name
+        }, function (err, group) {
             if (err) {
                 res.status(500).json(new Errors.error500());
             } else {
@@ -76,7 +108,9 @@ GroupsControllers.prototype.deleteOne = function (req, res) {
     if (!name) {
         res.status(400).json(new Errors.error400());
     } else {
-        Groups.remove({ name: name }, function (err) {
+        Groups.remove({
+            name: name
+        }, function (err) {
             if (err) {
                 res.status(500).json(new Errors.error500());
             } else {
@@ -92,7 +126,9 @@ GroupsControllers.prototype.update = function (req, res) {
     if (!updateGroup || !name) {
         res.status(400).json(Errors.error400);
     } else {
-        Groups.update({ name: name }, updateGroup, function (err) {
+        Groups.update({
+            name: name
+        }, updateGroup, function (err) {
             if (err) {
                 res.status(500).json(Errors.error500);
             } else {
