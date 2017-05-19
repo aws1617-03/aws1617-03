@@ -8,6 +8,8 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-mocha-test');
 
+    grunt.loadNpmTasks('grunt-release-github');
+
     // Project configuration.
     grunt.initConfig({
         //Load configurations
@@ -32,6 +34,26 @@ module.exports = function (grunt) {
                     noFail: false // Optionally set to not fail on failed tests (will still fail on other errors)
                 },
                 src: ['tests/**/*.js']
+            }
+        },
+
+        release: {
+            options: {
+                changelog: true, //NOT CHANGE
+                changelogFromGithub: true, //NOT CHANGE
+                githubReleaseBody: 'See [CHANGELOG.md](./CHANGELOG.md) for details.', //NOT CHANGE
+                npm: false, //CHANGE TO TRUE IF YOUR PROJECT IS A NPM MODULE 
+                //npmtag: true, //default: no tag
+                beforeBump: [], // IS NOT READY YET
+                afterBump: [], // IS NOT READY YET
+                beforeRelease: [], // IS NOT READY YET
+                afterRelease: [], // IS NOT READY YET
+                updateVars: ['pkg'], //NOT CHANGE
+                github: {
+                    repo: "aws1617-03/aws1617-03",
+                    accessTokenVar: "GITHUB_ACCESS_TOKEN", //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                    usernameVar: "GITHUB_USERNAME" //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                }
             }
         },
 
