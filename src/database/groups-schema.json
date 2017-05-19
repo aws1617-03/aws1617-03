@@ -7,13 +7,7 @@
         "description": {
             "type": "string"
         },
-        "members": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
-        },
-        "acronym_university": {
+        "university": {
             "type": "string"
         }
     },
