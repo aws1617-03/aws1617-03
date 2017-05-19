@@ -10,6 +10,8 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-release-github');
 
+    grunt.loadNpmTasks('grunt-dockerize');
+
     // Project configuration.
     grunt.initConfig({
         //Load configurations
@@ -53,6 +55,32 @@ module.exports = function (grunt) {
                     repo: "aws1617-03/aws1617-03",
                     accessTokenVar: "GITHUB_ACCESS_TOKEN", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                     usernameVar: "GITHUB_USERNAME" //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                }
+            }
+        },
+
+        dockerize: {
+            'aws1617-03-latest': {
+                options: {
+                    auth: {
+                        email: "DOCKER_HUB_EMAIL", //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                        username: "DOCKER_HUB_USERNAME", //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                        password: "DOCKER_HUB_PASSWORD" //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                    },
+                    name: 'aws1617-03',
+                    push: true
+                }
+            },
+            'aws1617-03-version': {
+                options: {
+                    auth: {
+                        email: "DOCKER_HUB_EMAIL", //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                        username: "DOCKER_HUB_USERNAME", //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                        password: "DOCKER_HUB_PASSWORD" //SET ENVIRONMENT VARIABLE WITH THIS NAME
+                    },
+                    name: 'aws1617-03',
+                    tag: '<%= pkg.version %>',
+                    push: true
                 }
             }
         },
