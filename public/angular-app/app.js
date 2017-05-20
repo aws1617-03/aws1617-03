@@ -74,6 +74,17 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
                     }
                 }
 
+            }).state('account', {
+
+                url: '/account',
+                parent: 'site',
+                views: {
+                    'content@': {
+                        templateUrl: 'angular-app/account/account-template.html',
+                        controller: 'accountCtl'
+                    }
+                }
+
             });
 
     }).run(function ($http, $rootScope, authService, authManager) {
