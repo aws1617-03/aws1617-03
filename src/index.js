@@ -53,7 +53,7 @@ app.get(path.join(apiBase, 'groups'), auth.authmiddelware, groupsControllers.get
  * 
  *  query params: []
  */
-app.get(path.join(apiBase, 'groups/:name'), auth.authmiddelware, groupsControllers.getOneByName);
+app.get(path.join(apiBase, 'groups/:id'), auth.authmiddelware, groupsControllers.getOneById);
 
 /**
  *  POST ../groups
@@ -75,7 +75,7 @@ app.post(path.join(apiBase, 'groups'), auth.authmiddelware, groupsControllers.cr
  *     "members": ["Pablo F.", "Antonio R."]
  *  }
  */
-app.put(path.join(apiBase, 'groups/:name'), auth.authmiddelware, groupsControllers.update);
+app.put(path.join(apiBase, 'groups/:id'), auth.authmiddelware, groupsControllers.update);
 
 /**
  *  DELETE ../groups
@@ -86,7 +86,7 @@ app.delete(path.join(apiBase, 'groups'), auth.authmiddelware, groupsControllers.
  *  DELETE ../groups/:id
  * 
  */
-app.delete(path.join(apiBase, 'groups/:name'), auth.authmiddelware, groupsControllers.deleteOne);
+app.delete(path.join(apiBase, 'groups/:id'), auth.authmiddelware, groupsControllers.deleteOne);
 
 
 /**

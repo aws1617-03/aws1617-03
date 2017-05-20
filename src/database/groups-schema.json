@@ -7,11 +7,8 @@
         "description": {
             "type": "string"
         },
-        "members": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
+        "university": {
+            "type": "string"
         }
     },
     "additionalProperties": false,
