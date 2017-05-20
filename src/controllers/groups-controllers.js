@@ -29,11 +29,11 @@ GroupsControllers.prototype.create = function (req, res) {
 
     if (req.body && isValid.valid) {
         var newGroups = new Groups(req.body);
-        newGroups.save(function (err) {
+        newGroups.save(function (err, group) {
             if (err) {
                 res.status(409).json(new Errors.error409());
             } else {
-                res.status(201).json();
+                res.status(201).json({ "_id": group._id });
             }
         });
     } else {

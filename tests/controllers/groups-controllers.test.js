@@ -115,6 +115,7 @@ describe('Groups Controllers Tests', function () {
         server.undeploy(done);
     });
 
+    var ISATestsId;
     it('POST /groups', function (done) {
         request.post({
             url: 'http://localhost:' + port + '/api/v1/groups',
@@ -125,13 +126,14 @@ describe('Groups Controllers Tests', function () {
             headers: {
                 Authorization: authString
             }
-        }, function (err, res) {
+        }, function (err, res, body) {
             if (err) {
                 done(err);
             } else if (res.statusCode != 201) {
                 done(new Error("Status Code not equal 201"));
             } else {
                 expect(res.statusCode).to.equal(201);
+                ISATestsId = body._id;
                 done();
             }
         });
@@ -160,7 +162,7 @@ describe('Groups Controllers Tests', function () {
 
     it('UPDATE /groups', function (done) {
         request.put({
-            url: 'http://localhost:' + port + '/api/v1/groups/ISA-tests',
+            url: 'http://localhost:' + port + '/api/v1/groups/' + ISATestsId,
             json: true,
             body: {
                 name: "ISAUpdate-tests"
@@ -183,7 +185,7 @@ describe('Groups Controllers Tests', function () {
 
     it('GET /groups/ISAUpdate-tests', function (done) {
         request.get({
-            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests',
+            url: 'http://localhost:' + port + '/api/v1/groups/' + ISATestsId,
             json: true,
             headers: {
                 Authorization: authString
@@ -203,7 +205,7 @@ describe('Groups Controllers Tests', function () {
 
     it('DELETE /groups/ISAUpdate-tests', function (done) {
         request.delete({
-            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests',
+            url: 'http://localhost:' + port + '/api/v1/groups/' + ISATestsId,
             json: true,
             headers: {
                 Authorization: authString
@@ -222,7 +224,7 @@ describe('Groups Controllers Tests', function () {
 
     it('GET /groups/ISAUpdate-tests NOT FOUND', function (done) {
         request.get({
-            url: 'http://localhost:' + port + '/api/v1/groups/ISAUpdate-tests',
+            url: 'http://localhost:' + port + '/api/v1/groups/' + ISATestsId,
             json: true,
             headers: {
                 Authorization: authString
