@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col s12">
+    <div class="row">
+      <div class="col s3">
+        <img ng-src="{{account.picture}}" class="responsive-img img-panel" />
+      </div>
+      <div class="col s9">
+        <div class="row">
+          <div class="col s12">
+            <h5>{{account.name}}</h5>
+            <div class="card-panel">
+              <a ng-click="toggle = !(toggle)" class="btn blue lighten-2">See my personal token</a>
+              <textarea class="fade materialize-textarea" ng-if="toggle" ng-model="token"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <h5>My clients</h5>
+            <div class="card-panel center">
+              <em>---- DEVELOPING ----</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
