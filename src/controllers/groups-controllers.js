@@ -59,11 +59,11 @@ GroupsControllers.prototype.create = function (req, res) {
 
     if (req.body && isValid.valid) {
         var newGroups = new Groups(req.body);
-        newGroups.save(function (err) {
+        newGroups.save(function (err, group) {
             if (err) {
                 res.status(409).json(new Errors.error409());
             } else {
-                res.status(201).json();
+                res.status(201).json({ "_id": group._id });
             }
         });
     } else {
@@ -82,14 +82,13 @@ GroupsControllers.prototype.deleteAll = function (req, res) {
     });
 };
 
-GroupsControllers.prototype.getOneByName = function (req, res) {
-    var name = req.params.name;
-    if (!name) {
+GroupsControllers.prototype.getOneById = function (req, res) {
+    var id = req.params.id;
+    if (!id) {
         res.status(400).json(new Errors.error400());
     } else {
-        Groups.findOne({
-            name: name
-        }, function (err, group) {
+
+        Groups.findOne({ _id: id }, function (err, group) {
             if (err) {
                 res.status(500).json(new Errors.error500());
             } else {
@@ -104,13 +103,12 @@ GroupsControllers.prototype.getOneByName = function (req, res) {
 };
 
 GroupsControllers.prototype.deleteOne = function (req, res) {
-    var name = req.params.name;
-    if (!name) {
+    var id = req.params.id;
+    if (!id) {
         res.status(400).json(new Errors.error400());
     } else {
-        Groups.remove({
-            name: name
-        }, function (err) {
+
+        Groups.remove({ _id: id }, function (err) {
             if (err) {
                 res.status(500).json(new Errors.error500());
             } else {
@@ -122,13 +120,13 @@ GroupsControllers.prototype.deleteOne = function (req, res) {
 
 GroupsControllers.prototype.update = function (req, res) {
     var updateGroup = req.body;
-    var name = req.params.name;
-    if (!updateGroup || !name) {
+    var id = req.params.id;
+    if (!updateGroup || !id) {
         res.status(400).json(Errors.error400);
     } else {
-        Groups.update({
-            name: name
-        }, updateGroup, function (err) {
+
+        Groups.update({ _id: id }, updateGroup, function (err) {
+
             if (err) {
                 res.status(500).json(Errors.error500);
             } else {
