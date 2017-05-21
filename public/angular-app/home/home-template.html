@@ -21,13 +21,13 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s12 center">
-                                <button  class="btn" ng-click="authService.login(username,password)" ng-disabled="loading">Login</button>
-                                <button  class="btn" ng-click="authService.signup(username,password)" ng-disabled="loading">Sign up</button>
-                                <p class="center">
-                                    <a href="javascript:;" ng-click="authService.loginWithGoogle()">
-                                        Log In with Google
-                                    </a>
-                                </p>
+                                <button class="waves-effect waves-light btn col s12 light-blue darken-4" style="margin-top: 0.5rem" ng-click="authService.login(username,password)"
+                                    ng-disabled="loading"><i class="fa fa-2x fa-sign-in"></i> Login</button>
+                                <button class="waves-effect waves-light btn col s12  green" style="margin-top: 0.5rem" ng-click="authService.signup(username,password)"
+                                    ng-disabled="loading"><i class="fa fa-2x fa-user-plus"></i> Sign up</button>
+                                <a class="waves-effect waves-light btn blue col s12" style="margin-top: 0.5rem" href="javascript:;" ng-click="authService.loginWithGoogle()">
+                                    <i class="fa fa-2x fa-google"></i> Login with Google
+                                </a>
                             </div>
                         </div>
                     </form>
@@ -66,7 +66,7 @@
         </div>
 
     </div>
-     <div class="col s12 m6">
+    <div class="col s12 m6">
 
         <div class="card">
             <div class="card-image">
