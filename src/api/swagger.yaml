@@ -1,0 +1,242 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Groups API
+  description: >-
+    An RESTful API for managing researches groups and get information 
+    about their activities.
+  contact:
+    name: "AWS1617-03"
+    email: "info@aws1617-03.com"
+    url: http://aws1617-03.herokuapp.com
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+    
+basePath: /api/v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /groups:
+    get:
+      description: Returns all group from the system that the user has access to
+      tags:
+        - Groups
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          in: query
+          description: page for pagination
+          required: false
+          type: number
+          format: int32
+        - name: limit
+          in: query
+          description: maximum number of results per page, default 10
+          required: false
+          type: integer
+          format: int32
+        - name: fields
+          in: query
+          description: >-
+            Used for searching in system, it is an array of filed for filtering. If it is 
+            present then 'values' is required.
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+        - name: values
+          in: query
+          description: >-
+            Used for searching in system, it is an array of values for 'fields'. If it is 
+            present then 'fields' is required.
+          required: false
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+      responses:
+        '200':
+          description: List of Groups
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/group'
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/errorModel'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    post:
+      description: Creates a new group in the system. Duplicates are not allowed
+      tags:
+        - Groups
+      produces:
+        - application/json
+      parameters:
+        - name: group
+          in: body
+          description: Group to add to the system
+          required: true
+          schema:
+            $ref: '#/definitions/newGroup'
+      responses:
+        '201':
+          description: ID response
+          schema:
+            $ref: '#/definitions/idGroup'
+        '400':
+          description: Bad Request, not vaild schema
+          schema:
+            $ref: '#/definitions/errorModel'
+        '409':
+          description: Database conflicts
+          schema:
+            $ref: '#/definitions/errorModel'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      description: deletes a all groups
+      tags:
+        - Groups
+      parameters: []
+      responses:
+        '200':
+          description: groups deleted
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+  /groups/{id}:
+    get:
+      tags:
+        - Groups
+      description: >-
+        Returns a group based on a single ID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of group to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: group response
+          schema:
+            $ref: '#/definitions/group'
+        '400':
+          description: ID parameter is required
+          schema:
+            $ref: '#/definitions/errorModel'
+        '404':
+          description: Not found group with this ID
+          schema:
+            $ref: '#/definitions/errorModel'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    put:
+      tags:
+        - Groups
+      description: updates a single group based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of group to delete
+          required: true
+          type: integer
+          format: int64
+        - name: group
+          in: body
+          description: Group to update to the system
+          required: true
+          schema:
+            $ref: '#/definitions/newGroup'
+      responses:
+        '200':
+          description: group deleted
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/errorModel'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      tags:
+        - Groups
+      description: deletes a single group based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of group to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: group deleted
+        '400':
+          description: ID parameter is required
+          schema:
+            $ref: '#/definitions/errorModel'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+definitions:
+  idGroup:
+    type: object
+    required:
+      - '_id'
+    properties:
+      '_id':
+        type: string
+  group:
+    type: object
+    required:
+      - '_id'
+      - name
+    properties:
+      '_id':
+        type: string
+      name:
+        type: string
+      university:
+        type: string
+  newGroup:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      university:
+        type: string
+  errorModel:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
