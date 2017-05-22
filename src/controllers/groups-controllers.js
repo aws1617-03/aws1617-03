@@ -4,7 +4,7 @@ var Groups = require('../database/database').Groups;
 var Errors = require('./error');
 var validateGroups = require('../database/validator').validateGroups;
 
-var GroupsControllers = function () {};
+var GroupsControllers = function () { };
 
 
 GroupsControllers.prototype.getAll = function (req, res) {
@@ -134,6 +134,18 @@ GroupsControllers.prototype.update = function (req, res) {
             }
         });
     }
+};
+
+GroupsControllers.prototype.count = function (req, res) {
+    Groups.count({}, function (err, count) {
+        if (err) {
+            res.status(500).json(Errors.error500);
+        } else {
+            res.json({
+                count: count
+            });
+        }
+    });
 };
 
 module.exports = new GroupsControllers();
