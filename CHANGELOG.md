@@ -1,3 +1,21 @@
+### v1.1.0 - 2017-41-22
+
+- [#85](https://github.com/aws1617-03/aws1617-03/issues/85) - Add search options
+
+- [#78](https://github.com/aws1617-03/aws1617-03/issues/78) - Add grunt-dockerize for automating delivering with travis CI
+
+- [#77](https://github.com/aws1617-03/aws1617-03/issues/77) - Add grunt-release-github plugin for automating releases
+
+- [#74](https://github.com/aws1617-03/aws1617-03/issues/74) - Modify schema to be aligne with others microservices
+
+- [#71](https://github.com/aws1617-03/aws1617-03/issues/71) - Add account state to UI for managing credentials and connections
+
+- [#70](https://github.com/aws1617-03/aws1617-03/issues/70) - Add style to login buttons
+
+- [#68](https://github.com/aws1617-03/aws1617-03/issues/68) - Add pagination in UI
+
+- [#14](https://github.com/aws1617-03/aws1617-03/issues/14) - Add Swagger definition and swager docs
+
 ### v1.0.0 - 2017-41-19
 
 - [#64](https://github.com/aws1617-03/aws1617-03/issues/64) - Add auth0 for auth management
