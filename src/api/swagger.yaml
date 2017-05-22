@@ -200,6 +200,25 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
+  /stats/groups/count:
+    get:
+      tags:
+        - Stats
+      description: Get number of existed group in the system
+      parameters: []
+      responses:
+          '200':
+            description: count deleted
+            schema: #Standarize this schema
+              type: object
+              properties:
+                count:
+                  type: number
+                  format: int64
+          default:
+            description: unexpected error
+            schema:
+              $ref: '#/definitions/errorModel'
 definitions:
   idGroup:
     type: object

@@ -91,6 +91,11 @@ app.delete(path.join(apiBase, 'groups'), auth.authmiddelware, groupsControllers.
  */
 app.delete(path.join(apiBase, 'groups/:id'), auth.authmiddelware, groupsControllers.deleteOne);
 
+/**
+ *  GET ../stats/groups/count
+ * 
+ */
+app.get(path.join(apiBase, 'stats/groups/count'), auth.authmiddelware, groupsControllers.count);
 
 /**
  *  GET ../tokens/github
