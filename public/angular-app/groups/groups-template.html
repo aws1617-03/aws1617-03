@@ -79,13 +79,9 @@
     <div class="row">
       <div class="col s12 center">
         <ul class="pagination" ng-if="groups.length > 0">
-          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active"><a href="#!">1</a></li>
-          <li class="waves-effect"><a href="#!">2</a></li>
-          <li class="waves-effect"><a href="#!">3</a></li>
-          <li class="waves-effect"><a href="#!">4</a></li>
-          <li class="waves-effect"><a href="#!">5</a></li>
-          <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+          <li class="{{currentPage === 1 ? 'disabled': ''}}"><a href="" ng-click="updatepage(currentPage-1)"><i class="material-icons">chevron_left</i></a></li>
+          <li class="{{currentPage === page ? 'active': ''}}" ng-repeat="page in pages"><a href="" ng-click="updatepage(page);">{{page}}</a></li>
+          <li class="{{currentPage === pages.length ? 'disabled': ''}}"><a href="" ng-click="updatepage(currentPage+1)"><i class="material-icons">chevron_right</i></a></li>
         </ul>
       </div>
     </div>
