@@ -43,8 +43,10 @@
       <div class="col s12 m4" ng-repeat="group in groups">
         <div class="card">
           <div class="card-image">
-            <img src="images/group-default.png">
-            <span class="card-title">{{group.name}}</span>
+            <a href="" ui-sref="groupsId({id: group._id})">
+              <img src="images/group-default.png">
+              <span class="card-title">{{group.name}}</span>
+            </a>
             <a class="btn-floating halfway-fab waves-effect waves-light orange accent-2" ng-click="openModal('update',group)"><i class="material-icons">edit</i></a>
             <a class="btn-floating waves-effect waves-light red accent-2 right" ng-click="deleteGroup(group)"><i class="material-icons">delete</i></a>
           </div>
@@ -62,8 +64,10 @@
     <div class="row" ng-if="viewMode == 'table'">
       <ul class="collection">
         <li class="collection-item avatar" ng-repeat="group in groups">
-          <img src="images/group-default.png" alt="" class="circle">
-          <span class="title">{{group.name}}</span>
+          <a href="" ui-sref="groupsId({id: group._id})">
+            <img src="images/group-default.png" alt="" class="circle">
+            <span class="title">{{group.name}}</span>
+          </a>
           <p>{{group.description}}<br>
             <span ng-repeat="member in group.members">{{member}}, </span>
           </p>
