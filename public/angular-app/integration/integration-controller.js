@@ -2,6 +2,8 @@
 
 angular.module("groups-app").controller("integrationCtl", function ($scope, $rootScope, $http, $timeout, $q) {
 
+    $scope.loading = true;
+
     function getResearchers() {
         return $q(function (resolve, reject) {
             $http.get("https://aws1617-02.herokuapp.com/api/v1/researchers", {
@@ -79,6 +81,7 @@ angular.module("groups-app").controller("integrationCtl", function ($scope, $roo
 
         $q.all(promises).then(function (groups) {
             $scope.researchers = researchers;
+            $scope.loading = false;
             console.log(researchers);
         });
     }, function (error) {

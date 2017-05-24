@@ -1,12 +1,12 @@
 <div class="row">
-    <div class="col s12">
+    <div class="col s12 fade" ng-if="!loading">
         <form action="#" method="get">
             <div class="input-group">
                 <input type="search" name="search" ng-model="search" placeholder="Search researcher" id="" />
             </div>
         </form>
     </div>
-    <div class="col s12">
+    <div class="col s12 fade" ng-if="!loading">
         <table class="striped">
             <thead>
                 <tr>
@@ -37,5 +37,11 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div ng-if="loading" class="col s12 loading fade center" style="min-height: 500px">
+        <h5>Loading data...</h5>
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
     </div>
 </div>
