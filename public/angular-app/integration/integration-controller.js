@@ -22,7 +22,6 @@ angular.module("groups-app").controller("integrationCtl", function ($scope, $roo
 
     }
 
-    $scope.researchers = [];
     getResearchers().then(function (researchers) {
 
         var promises = [];
@@ -73,13 +72,14 @@ angular.module("groups-app").controller("integrationCtl", function ($scope, $roo
 
                 $q.all(projectPromises).then(function (projects) {
                     element.projects = projects;
-                    resolve();
+                    resolve(projects);
                 }, reject);
 
             }));
         });
 
         $q.all(promises).then(function (groups) {
+            console.log(groups);
             $scope.researchers = researchers;
             $scope.loading = false;
             console.log(researchers);
@@ -90,6 +90,8 @@ angular.module("groups-app").controller("integrationCtl", function ($scope, $roo
 
 
     $scope.comparatorFunction = function (name, search) {
+        console.log(name);
+        console.log(search);
         return ('' + name).indexOf('' + search) > -1;
     };
 

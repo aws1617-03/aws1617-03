@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col s12 fade" ng-if="!loading">
-        <form action="#" method="get">
+    <div class="col s12 fade">
+        <form>
             <div class="input-group">
                 <input type="search" name="search" ng-model="search" placeholder="Search researcher" id="" />
             </div>
@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="researcher in researchers | filter:search:comparatorFunction">
+                <tr ng-repeat="researcher in researchers | filter:search">
                     <td class="center">
                         <img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="circle" width="50" class="media-photo">
                     </td>
