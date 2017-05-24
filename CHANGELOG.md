@@ -1,3 +1,11 @@
+### v1.3.0 - 2017-41-24
+
+- [#84](https://github.com/aws1617-03/aws1617-03/issues/84) - Usage D3.js to show stats
+
+- [#82](https://github.com/aws1617-03/aws1617-03/issues/82) - Integration with Elsevier API
+
+- [#76](https://github.com/aws1617-03/aws1617-03/issues/76) - Add container class to menu on large view
+
 ### v1.2.0 - 2017-41-24
 
 - [#81](https://github.com/aws1617-03/aws1617-03/issues/81) - Configure heroku pipeline
