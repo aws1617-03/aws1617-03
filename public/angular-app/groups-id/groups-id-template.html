@@ -11,7 +11,7 @@
         <p><b>Bio:</b> {{group.description}}</p>
         <p><b>University:</b> <span>{{group.university}}</span></p>
 
-        <p><b>Researchers: </b> <span ng-repeat="researcher in researchers">{{researcher.name}}{{!$last ? ',' : '' }} </span></p>
+        <p><b>Researchers: </b> <a href="" ng-repeat="researcher in researchers" ng-click="loadD3Chart(researcher.orcid, researcher.name)">{{researcher.name}}{{!$last ? ',' : '' }} </a></p>
         <p><b>Total publications:</b> <span>{{group.totalDocuments}}</span></p>
         <p><b>Total cites:</b> <span>{{group.citations}}</span></p>
       </div>
@@ -63,6 +63,20 @@
     <h5>Loading data...</h5>
     <div class="progress">
       <div class="indeterminate"></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" ng-ig="showD3" id="d3Chart">
+  <div class="modal-content">
+    <h4 class="modal-title">Relationship of {{relatioshipname}}</h4>
+    <div id="dependencyChart"></div>
+    <div ng-if="relationShipLoading" class="col s12 loading fade center">
+      <h5>Loading data...</h5>
+      <div class="progress">
+        <div class="indeterminate"></div>
+      </div>
     </div>
   </div>
 </div>

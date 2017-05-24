@@ -32,7 +32,8 @@ angular
                                 agrupation: element['prism:aggregationType'],
                                 coverDate: element['prism:coverDate'],
                                 citedby: element['citedby-count'],
-                                affiliation: element.affiliation
+                                affiliation: element.affiliation,
+                                dc: element["dc:identifier"].split(':')[1]
                             };
                         });
 
@@ -53,7 +54,46 @@ angular
             });
         }
 
+        function getResercherRelationsShips(orcid) {
+            return $q(function (resolve, reject) {
+
+                getPublicationsPerAgeByResercher(orcid).then(function (author) {
+                    var publications = author.publications;
+
+                    var promises = [];
+                    publications.forEach(function (element) {
+                        promises.push(getCreatorsByDc(element.dc));
+                    });
+
+                    var relationsShips = [];
+                    $q.all(promises).then(function (creatorsResults) {
+                        creatorsResults.forEach(function (creators) {
+                            creators.forEach(function (c) {
+                                if (relationsShips.indexOf(c) === -1) {
+                                    relationsShips.push(c);
+                                }
+                            });
+                        });
+                        resolve(relationsShips);
+                    }, reject);
+                });
+
+            });
+
+        }
+
+        function getCreatorsByDc(dc) {
+            return $q(function (resolve, reject) {
+                $http.get(url + "/abstract/scopus_id/" + dc + "?apikey=" + apikey + "&httpAccept=application/json").then(function (response) {
+                    resolve(response.data['abstracts-retrieval-response'].authors.author.map(function (author) {
+                        return author['ce:indexed-name'];
+                    }));
+                }, reject);
+            });
+        }
+
         return {
-            getPublicationsPerAgeByResercher: getPublicationsPerAgeByResercher
+            getPublicationsPerAgeByResercher: getPublicationsPerAgeByResercher,
+            getResercherRelationsShips: getResercherRelationsShips
         };
     });
