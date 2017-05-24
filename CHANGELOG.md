@@ -1,3 +1,13 @@
+### v1.2.0 - 2017-41-24
+
+- [#81](https://github.com/aws1617-03/aws1617-03/issues/81) - Configure heroku pipeline
+
+- [#80](https://github.com/aws1617-03/aws1617-03/issues/80) - Integration with others microservices
+
+- [#79](https://github.com/aws1617-03/aws1617-03/issues/79) - Have API-Governance with governify.io
+
+- [#73](https://github.com/aws1617-03/aws1617-03/issues/73) - Add state /groupd/:id to manage  a group and its stats
+
 ### v1.1.0 - 2017-41-22
 
 - [#85](https://github.com/aws1617-03/aws1617-03/issues/85) - Add search options
