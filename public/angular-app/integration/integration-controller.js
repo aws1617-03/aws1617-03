@@ -1,62 +1,95 @@
 'use strict';
 
-angular.module("groups-app").controller("integrationCtl", function ($scope, $rootScope, $http, $timeout) {
+angular.module("groups-app").controller("integrationCtl", function ($scope, $rootScope, $http, $timeout, $q) {
 
-
-  
-  $scope.getResearchers = function () {
-            //Researchers
-            $http.get("https://aws1617-02.herokuapp.com/api/v1/researchers", { headers: {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTI3NjYyMjQsImV4cCI6MTQ5Mzk3NTgyNH0.WExNusVFHUcM6LKCwp3cz2SudqM1-CWF3DCZZIPNF-E'}}).then(function (response) {
-                $scope.researchers = response.data;
-                $scope.projects= {};
-                $scope.universities= {};
-                $scope.groups= {};
-                
-                //Groups
-                for(var i=0; i<$scope.researchers.length; i++){
-                    $http.get("/api/v1/groups/"+$scope.researchers[i].group).then(function (response) {
-                
-                    $scope.groups[$scope.researchers[i-1]._id] = response.data;
-                    }, function (err) {
-                            error(err.data);
-                    });
+    function getResearchers() {
+        return $q(function (resolve, reject) {
+            $http.get("https://aws1617-02.herokuapp.com/api/v1/researchers", {
+                headers: {
+                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0OTI3NjYyMjQsImV4cCI6MTQ5Mzk3NTgyNH0.WExNusVFHUcM6LKCwp3cz2SudqM1-CWF3DCZZIPNF-E'
                 }
-                
-                //Projects
-                for(var t=0; t<$scope.researchers.length; t++){
-                    $scope.projects[$scope.researchers[t]._id] = [];
-                    for(var j=0; j<$scope.researchers[t].projects.length; j++){
-                        $http.get("https://aws1617-01.herokuapp.com/api/v1/projects/"+$scope.researchers[t].projects[j]).then(function (response) {
-                        $scope.projects[$scope.researchers[t-1]._id] = response.data;
-                        }, function (err) {
-                            error(err.data);
-                        });
-                    }
-                }
-                
-                //Universities
-                for(var m=0; m<$scope.researchers.length; m++){
-                    $http.get("https://aws1617-04.herokuapp.com/api/v1/universities/"+$scope.researchers[m].university).then(function (response) {
-                    $scope.universities[$scope.researchers[m-1]._id] = response.data;
-                     console.log(m);
-                     console.log($scope.universities[m-1]);
-                    }, function (err) {
-                        error(err.data);
-                    });
-                }                   
-            
-            }, function (err) {
-                error(err.data);
+            }).then(function (response) {
+                resolve(response.data)
+            }, function (response) {
+                reject({
+                    code: response.status,
+                    message: response.data
+                });
             });
-            
-           
+        });
 
-    };
-    
+    }
+
+    $scope.researchers = [];
+    getResearchers().then(function (researchers) {
+
+        var promises = [];
+        researchers.forEach(function (element) {
+            promises.push($q(function (resolve, reject) {
+                $http.get("/api/v1/groups/" + element.group).then(function (response) {
+                    element.group = response.data;
+                    resolve(response.data);
+                }, function (response) {
+                    reject({
+                        code: response.status,
+                        message: response.data
+                    });
+                });
+            }));
+        });
+
+        researchers.forEach(function (element) {
+            promises.push($q(function (resolve, reject) {
+                $http.get("https://aws1617-04.herokuapp.com/api/v1/universities/" + element.university).then(function (response) {
+                    element.university = response.data;
+                    resolve(response.data);
+                }, function (response) {
+                    reject({
+                        code: response.status,
+                        message: response.data
+                    });
+                });
+            }));
+        });
+
+        researchers.forEach(function (element) {
+            promises.push($q(function (resolve, reject) {
+                var projectPromises = [];
+                element.projects.forEach(function (project) {
+                    projectPromises.push($q(function (res, rej) {
+
+                        $http.get("https://aws1617-01.herokuapp.com/api/v1/projects/" + project).then(function (response) {
+                            res(response.data[0]);
+                        }, function (response) {
+                            rej({
+                                code: response.status,
+                                message: response.data
+                            });
+                        });
+                    }));
+                });
+
+                $q.all(projectPromises).then(function (projects) {
+                    element.projects = projects;
+                    resolve();
+                }, reject);
+
+            }));
+        });
+
+        $q.all(promises).then(function (groups) {
+            $scope.researchers = researchers;
+            console.log(researchers);
+        });
+    }, function (error) {
+        console.log(error);
+    });
+
+
     $scope.comparatorFunction = function (name, search) {
         return ('' + name).indexOf('' + search) > -1;
     };
-    
+
     function error(data) {
         if (data.code) {
             $scope.error = data;
@@ -67,13 +100,13 @@ angular.module("groups-app").controller("integrationCtl", function ($scope, $roo
             };
         }
     }
-    
+
     function message(msg) {
         $scope.message = msg;
         $timeout($scope.cleanMessage, 6000);
     }
 
 
-    
-    $scope.getResearchers();
+
+    // $scope.getResearchers();
 });
