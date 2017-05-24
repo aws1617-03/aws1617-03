@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module("groups-app").controller("groupsIdCtl", function ($scope, $stateParams, $http, researchersService, elsevierService, $q, $timeout, gchartService) {
+angular.module("groups-app").controller("groupsIdCtl", function ($scope, $stateParams, $http, researchersService, elsevierService, $q, $timeout, gchartService, d3Service) {
 
     $scope.id = $stateParams.id;
 
@@ -86,6 +86,7 @@ angular.module("groups-app").controller("groupsIdCtl", function ($scope, $stateP
             gchartService.drawPublicationTypes(results.documentsTypesCount);
             gchartService.drawCitesPerYears(results.yearsCount);
             gchartService.drawCollaborationMap(results.collaborations);
+            d3Service.buildDependenciGraps();
         }, 500);
 
     }, function (error) {

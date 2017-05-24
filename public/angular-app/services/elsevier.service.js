@@ -53,6 +53,10 @@ angular
             });
         }
 
+        function getResercherPublicationGraph(orcid) {
+
+        }
+
         return {
             getPublicationsPerAgeByResercher: getPublicationsPerAgeByResercher
         };
