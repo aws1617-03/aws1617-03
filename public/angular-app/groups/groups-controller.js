@@ -127,6 +127,9 @@ angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScop
             $('#editModal').modal('open');
         }
     };
+    
+    
+  
 
     $scope.close = function (group) {
         if (group) {
