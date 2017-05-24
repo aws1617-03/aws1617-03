@@ -16,12 +16,14 @@
         <ul id="nav-right" class="right hide-on-med-and-down">
           <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="groups">Manage Groups</a></li>
           <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="tests">Tests</a></li>
+          <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="integration">Integration</a></li>
         </ul>
 
         <!-- mobile -->
         <ul class="side-nav" id="mobile">
           <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="groups">Manage Groups</a></li>
           <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="tests">Tests</a></li>
+           <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="integration">Integration</a></li>
         </ul>
 
       </div>
@@ -42,6 +44,7 @@
   </li>
   <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="groups">Manage Groups</a></li>
   <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="tests">Tests</a></li>
+  <li ui-sref-active="active" ng-if="authService.isAuthenticated()" class="fade"><a ui-sref="integration">Integration</a></li>
   <li>
     <div class="divider"></div>
   </li>

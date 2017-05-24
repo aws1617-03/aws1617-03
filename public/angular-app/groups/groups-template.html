@@ -62,8 +62,10 @@
     <div class="row" ng-if="viewMode == 'table'">
       <ul class="collection">
         <li class="collection-item avatar" ng-repeat="group in groups">
+          <a href="" ng-click="openModalInfo(group)">
           <img src="images/group-default.png" alt="" class="circle">
           <span class="title">{{group.name}}</span>
+          </a>
           <p>{{group.description}}<br>
             <span ng-repeat="member in group.members">{{member}}, </span>
           </p>
@@ -118,7 +120,10 @@
             <input type="text" class="form-control" id="members" ng-model="newGroup.members" ng-list=", " placeholder="Member1,Member2">
           </div>
         </form>-->
-  </div>
+ </div>
+ 
+
+ 
   <div class="modal-footer">
     <a href="" class="modal-action modal-close waves-effect waves-green btn-flat" data-dismiss="modal">Close</a>
     <a href="" id="update" class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="updateGroup()" ng-if="modalMode == 'update'">Update</a>
@@ -127,3 +132,25 @@
   <!-- /.modal-content -->
 </div>
 <!-- /.modal -->
+
+ <div class="modal" id="infoModal">
+  <div class="modal-content">
+    <h4 class="modal-title">Properties of Group</h4>
+      <p><b>Name:</b> {{infoGroup.name}}</p>
+      <p><b>Description:</b> {{infoGroup.description}}</p>
+      <p><b>Members:</b>
+        <span ng-repeat="member in infoGroup.members">{{member}}, </span>
+      </p>
+      <p><b>Researchers:</b>
+        <span ng-repeat="researcher in researchers">{{researcher.name}}, </span>
+      </p>
+       <p ng-repeat="researcher in researchers"><b>Projects:</b> 
+        <span ng-repeat="project in projects[researcher._id]">{{project.titulo}}, </span>
+      </p>
+  </div>
+  
+   <div class="modal-footer">
+    <a href="" class="modal-action modal-close waves-effect waves-green btn-flat" data-dismiss="modal">Close</a>
+  </div>
+  
+</div>

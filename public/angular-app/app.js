@@ -63,6 +63,17 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
                     }
                 }
 
+            }).state('integration', {
+
+                url: '/integration',
+                parent: 'site',
+                views: {
+                    'content@': {
+                        templateUrl: 'angular-app/integration/integration-template.html',
+                        controller: 'integrationCtl'
+                    }
+                }
+
             }).state('tests', {
 
                 url: '/api/v1/tests',
