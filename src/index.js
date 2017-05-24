@@ -30,7 +30,9 @@ app.use(cors());
 /******************
  * PUBLIC FILES
  ******************/
-
+app.use('/api/v1/auth/authorize', function (req, res) {
+    res.redirect('https://dani8art.eu.auth0.com/authorize?client_id=' + req.query.client_id + '&response_type=' + req.query.response_type + '&redirect_uri=' + req.query.redirect_uri);
+});
 app.use('/', express.static('./public'));
 
 /*****************************
