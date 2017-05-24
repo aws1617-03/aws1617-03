@@ -12,6 +12,7 @@ angular.module("groups-app").controller("groupsIdCtl", function ($scope, $stateP
         return $q(function (resolve, reject) {
             var publicationsPerYearsLastFive = [];
             $http.get('api/v1/groups/' + $scope.id).then(function (response) {
+                $('.modal').modal();
                 var group = response.data;
                 // GET members
                 researchersService.getResearchersByGroups(group._id).then(function (researchers) {
@@ -77,7 +78,23 @@ angular.module("groups-app").controller("groupsIdCtl", function ($scope, $stateP
 
     }
 
+    $scope.loadD3Chart = function (orcid, main) {
+        $scope.showD3 = true;
+        $scope.relationShipLoading = true;
+        $scope.relatioshipname = main;
+        $('#d3Chart').modal('open');
+        elsevierService.getResercherRelationsShips(orcid).then(function (relationships) {
+            console.log(relationships);
+            d3Service.buildDependenciGraps(main, relationships).then(function () {
+                $scope.relationShipLoading = false;
+            });
+        }, function (error) {
+            console.log(error);
+        });
+    };
+
     $scope.refresh().then(function (results) {
+        console.log(results);
         $scope.group = results.group;
         $scope.researchers = results.researchers;
         $scope.loading = false;
@@ -86,7 +103,6 @@ angular.module("groups-app").controller("groupsIdCtl", function ($scope, $stateP
             gchartService.drawPublicationTypes(results.documentsTypesCount);
             gchartService.drawCitesPerYears(results.yearsCount);
             gchartService.drawCollaborationMap(results.collaborations);
-            d3Service.buildDependenciGraps();
         }, 500);
 
     }, function (error) {
