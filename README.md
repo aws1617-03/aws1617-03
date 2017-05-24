@@ -8,4 +8,7 @@ This repository contains a project which is developed to research the goals of S
 
 **API endpoint:** [https://aws1617-03.herokuapp.com/api/v1/groups](https://aws1617-03.herokuapp.com/api/v1/groups)
 
+**Slides:** [https://drive.google.com/open?id=0B6VuJd3owDolMFZwSV93VzJQNDQ](https://drive.google.com/open?id=0B6VuJd3owDolMFZwSV93VzJQNDQ)
+
+
 
