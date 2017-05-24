@@ -62,7 +62,6 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
                         controller: 'groupsCtl'
                     }
                 }
-
             }).state('integration', {
 
                 url: '/integration',
@@ -73,7 +72,17 @@ angular.module("groups-app", ['auth0.auth0', 'angular-jwt', 'ui.router', 'ngAnim
                         controller: 'integrationCtl'
                     }
                 }
+            }).state('groupsId', {
 
+                url: '/groups/:id',
+                parent: 'site',
+                views: {
+                    'content@': {
+                        templateUrl: 'angular-app/groups-id/groups-id-template.html',
+                        controller: 'groupsIdCtl'
+
+                    }
+                }
             }).state('tests', {
 
                 url: '/api/v1/tests',

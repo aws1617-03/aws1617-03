@@ -1,16 +1,29 @@
 'use strict';
 
 angular.module("groups-app").controller("groupsCtl", function ($scope, $rootScope, $http, $timeout) {
-
+    $scope.currentPage = 1;
     $scope.viewMode = "table";
+    $scope.updatepage = function (page) {
+        $scope.currentPage = page;
+        $scope.refresh();
+    };
     $scope.refresh = function () {
         $scope.cleanError();
         if (!$rootScope.apikey) {
             $rootScope.apikey = $scope.apikey;
         }
-        $http.get("/api/v1/groups").then(function (response) {
+        $http.get("/api/v1/groups?page=" + $scope.currentPage + "&limit=5").then(function (response) {
             $scope.groups = response.data;
             $('.modal').modal();
+            $http.get('/api/v1/stats/groups/count').then(function (response) {
+                $scope.count = response.data.count;
+                $scope.pages = [];
+                var i;
+                for (i = 1; i <= Math.ceil($scope.count / 5); i++) {
+                    $scope.pages.push(i);
+                }
+                $scope.currentPage = $scope.pages.indexOf($scope.currentPage) != -1 ? $scope.currentPage : $scope.pages[i];
+            });
         }, function (err) {
             if ($scope.apikey) {
                 error(err.data);

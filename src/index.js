@@ -8,7 +8,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     cors = require('cors'),
     config = require('./config/config'),
-    database = require('./database/database');
+    database = require('./database/database'),
+    swaggerTools = require('swagger-tools'),
+    fs = require('fs'),
+    jsyaml = require('js-yaml');
 
 //add configuration
 config.addConfiguration(path.join(__dirname, '/../app-configuration.yaml'));
@@ -88,6 +91,11 @@ app.delete(path.join(apiBase, 'groups'), auth.authmiddelware, groupsControllers.
  */
 app.delete(path.join(apiBase, 'groups/:id'), auth.authmiddelware, groupsControllers.deleteOne);
 
+/**
+ *  GET ../stats/groups/count
+ * 
+ */
+app.get(path.join(apiBase, 'stats/groups/count'), auth.authmiddelware, groupsControllers.count);
 
 /**
  *  GET ../tokens/github
@@ -97,6 +105,13 @@ app.delete(path.join(apiBase, 'groups/:id'), auth.authmiddelware, groupsControll
  */
 app.get(path.join(apiBase, 'tokens/github'), tokensControllers.getGitHub);
 
+var swaggerDefinition = jsyaml.safeLoad(fs.readFileSync('./src/api/swagger.yaml'));
+swaggerTools.initializeMiddleware(swaggerDefinition, function (middleware) {
+    app.use(middleware.swaggerUi({
+        apiDocs: swaggerDefinition.basePath + '/api-docs',
+        swaggerUi: swaggerDefinition.basePath + '/docs'
+    }));
+});
 //START APP
 var port = process.env.PORT || config.port;
 
