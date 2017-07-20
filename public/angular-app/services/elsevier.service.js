@@ -4,7 +4,7 @@ angular
     .module('groups-app')
     .service('elsevierService', function elsevierService($http, $q) {
 
-        var url = "http://api.elsevier.com/content";
+        var url = "http://sabius.services.governify.io/api/v1/elsevier/content";
         var apikey = "8482cd54c09f4a1d3bab52d46fde965f";
 
         function getPublicationsPerAgeByResercher(orcid) {
